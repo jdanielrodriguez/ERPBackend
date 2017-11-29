@@ -15,6 +15,17 @@ class CreateProductosTables extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion')->nullable()->default(null);
+            $table->string('nombre')->nullable();
+            $table->string('codigo')->nullable();
+            $table->string('marcaDes')->nullable()->default(null);
+            $table->tinyInteger('tipo')->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(1);
+
+            $table->integer('marca')->nullable()->default(null);
+            $table->foreign('marca')->references('id')->on('marcas')->onDelete('cascade');
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

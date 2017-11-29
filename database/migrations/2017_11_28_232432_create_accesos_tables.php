@@ -15,6 +15,17 @@ class CreateAccesosTables extends Migration
     {
         Schema::create('accesos', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('agregar')->default(0);
+            $table->tinyInteger('modificar')->default(0);
+            $table->tinyInteger('mostrar')->default(0);
+            $table->tinyInteger('eliminar')->default(0);
+            
+            $table->integer('usuario')->unsigned();
+            $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->integer('modulo')->unsigned();
+            $table->foreign('modulo')->references('id')->on('modulos')->onDelete('cascade');
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

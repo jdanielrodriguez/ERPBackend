@@ -15,6 +15,15 @@ class CreateSueldosTables extends Migration
     {
         Schema::create('sueldos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion')->nullable()->default(null);
+            $table->date('fecha')->nullable()->default(null);
+            $table->double('monto',7,2)->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(1);
+            
+            $table->integer('empleado')->nullable()->default(null);
+            $table->foreign('empleado')->references('id')->on('empleados')->onDelete('cascade');
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

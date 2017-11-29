@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTiposcompraTables extends Migration
+class CreateMarcasTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateTiposcompraTables extends Migration
      */
     public function up()
     {
-        Schema::create('tiposcompra', function (Blueprint $table) {
+        Schema::create('marcas', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nombre')->nullable()->default(null);
+            $table->string('descripcion')->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(1);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ class CreateTiposcompraTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tiposcompra');
+        Schema::dropIfExists('marcas');
     }
 }

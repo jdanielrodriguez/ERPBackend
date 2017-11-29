@@ -15,6 +15,9 @@ class CreateTiposdetalleventasTables extends Migration
     {
         Schema::create('tiposdetalleventas', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion')->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(null);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

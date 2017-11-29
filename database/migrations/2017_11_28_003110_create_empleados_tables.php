@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGastosTables extends Migration
+class CreateEmpleadosTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,19 @@ class CreateGastosTables extends Migration
      */
     public function up()
     {
-        Schema::create('gastos', function (Blueprint $table) {
+        Schema::create('empleados', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion')->nullable();
-            $table->date('fecha')->nullable();
-            $table->double('monto',5,2)->nullable()->default(0);
+            $table->string('nombre')->nullable();
+            $table->string('apellido')->nullable();
+            $table->string('direccion')->nullable()->default(null);
+            $table->string('telefono')->nullable()->default(null);
+            $table->string('celular')->nullable();
+            $table->double('sueldo',5,2)->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
+            $table->integer('puesto')->nullable()->default(null);
+            $table->foreign('puesto')->references('id')->on('puestos')->onDelete('cascade');
+            
             $table->integer('sucursal')->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
             
@@ -35,6 +41,6 @@ class CreateGastosTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gastos');
+        Schema::dropIfExists('empleados');
     }
 }

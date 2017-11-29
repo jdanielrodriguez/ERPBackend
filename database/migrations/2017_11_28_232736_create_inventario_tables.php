@@ -15,6 +15,22 @@ class CreateInventarioTables extends Migration
     {
         Schema::create('inventario', function (Blueprint $table) {
             $table->increments('id');
+            $table->double('precioCosto',5,2)->nullable()->default(null);
+            $table->double('precioVenta',5,2)->nullable()->default(null);
+            $table->double('precioClienteEs',7,2)->nullable()->default(null);
+            $table->double('precioDistribuidor',7,2)->nullable()->default(null);
+            $table->double('cantidad',7,2)->nullable()->default(0);
+            $table->double('minimo',7,2)->nullable()->default(0);
+            $table->double('descuento',7,2)->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(1);
+
+            $table->integer('sucursal')->nullable()->default(null);
+            $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
+
+            $table->integer('producto')->nullable()->default(null);
+            $table->foreign('producto')->references('id')->on('productos')->onDelete('cascade');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

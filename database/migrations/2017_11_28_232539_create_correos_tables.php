@@ -15,6 +15,13 @@ class CreateCorreosTables extends Migration
     {
         Schema::create('correos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('correo')->nullable()->default(null);
+            $table->timestamp('fecha')->useCurrent();
+            $table->tinyInteger('estado')->nullable()->default(1);
+
+            $table->integer('tipo')->nullable()->default(null);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

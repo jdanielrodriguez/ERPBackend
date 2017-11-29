@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMovimientoscTables extends Migration
+class CreateTiposventaTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateMovimientoscTables extends Migration
      */
     public function up()
     {
-        Schema::create('movimientosc', function (Blueprint $table) {
+        Schema::create('tiposventa', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion')->nullable()->default(null);
+            $table->tinyInteger('estado')->nullable()->default(null);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateMovimientoscTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movimientosc');
+        Schema::dropIfExists('tiposventa');
     }
 }
