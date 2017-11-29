@@ -22,7 +22,7 @@ class CreateProductosTables extends Migration
             $table->tinyInteger('tipo')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('marca')->nullable()->default(null);
+            $table->integer('marca')->unsigned()->nullable()->default(null);
             $table->foreign('marca')->references('id')->on('marcas')->onDelete('cascade');
             
             $table->softDeletes();

@@ -20,7 +20,7 @@ class CreateSueldosTables extends Migration
             $table->double('monto',7,2)->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
             
-            $table->integer('empleado')->nullable()->default(null);
+            $table->integer('empleado')->unsigned()->nullable()->default(null);
             $table->foreign('empleado')->references('id')->on('empleados')->onDelete('cascade');
             
             $table->softDeletes();

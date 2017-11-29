@@ -22,7 +22,7 @@ class CreateComisionesTables extends Migration
             $table->double('total',7,2)->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('usuario')->nullable()->default(null);
+            $table->integer('usuario')->unsigned()->nullable()->default(null);
             $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
 
             $table->softDeletes();

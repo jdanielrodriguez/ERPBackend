@@ -23,10 +23,10 @@ class CreateEmpleadosTables extends Migration
             $table->double('sueldo',5,2)->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('puesto')->nullable()->default(null);
+            $table->integer('puesto')->unsigned()->nullable()->default(null);
             $table->foreign('puesto')->references('id')->on('puestos')->onDelete('cascade');
             
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
             
             $table->softDeletes();

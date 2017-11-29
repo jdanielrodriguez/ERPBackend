@@ -23,10 +23,10 @@ class CreateCuentascobrarTables extends Migration
             $table->integer('tipoPlazo')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('venta')->nullable()->default(null);
+            $table->integer('venta')->unsigned()->nullable()->default(null);
             $table->foreign('venta')->references('id')->on('ventas')->onDelete('cascade');
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
             $table->softDeletes();

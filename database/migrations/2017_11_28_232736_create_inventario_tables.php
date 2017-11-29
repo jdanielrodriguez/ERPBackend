@@ -24,10 +24,10 @@ class CreateInventarioTables extends Migration
             $table->double('descuento',7,2)->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
-            $table->integer('producto')->nullable()->default(null);
+            $table->integer('producto')->unsigned()->nullable()->default(null);
             $table->foreign('producto')->references('id')->on('productos')->onDelete('cascade');
 
             $table->softDeletes();

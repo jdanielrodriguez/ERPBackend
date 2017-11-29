@@ -20,16 +20,16 @@ class CreateVentasTables extends Migration
             $table->string('comprobante')->nullable()->default(1);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('tipo')->nullable()->default(null);
+            $table->integer('tipo')->unsigned()->nullable()->default(null);
             $table->foreign('tipo')->references('id')->on('tiposventa')->onDelete('cascade');
 
-            $table->integer('cliente')->nullable()->default(null);
+            $table->integer('cliente')->unsigned()->nullable()->default(null);
             $table->foreign('cliente')->references('id')->on('clientes')->onDelete('cascade');
 
-            $table->integer('usuario')->nullable()->default(null);
+            $table->integer('usuario')->unsigned()->nullable()->default(null);
             $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
             $table->softDeletes();

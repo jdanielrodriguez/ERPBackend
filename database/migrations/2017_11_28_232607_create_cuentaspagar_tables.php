@@ -23,10 +23,10 @@ class CreateCuentaspagarTables extends Migration
             $table->integer('tipoPlazo')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('compra')->nullable()->default(null);
+            $table->integer('compra')->unsigned()->nullable()->default(null);
             $table->foreign('compra')->references('id')->on('compras')->onDelete('cascade');
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
             $table->softDeletes();

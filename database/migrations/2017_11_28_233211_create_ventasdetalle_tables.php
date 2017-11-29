@@ -25,13 +25,13 @@ class CreateVentasdetalleTables extends Migration
             $table->string('garantia')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('venta')->nullable()->default(null);
+            $table->integer('venta')->unsigned()->nullable()->default(null);
             $table->foreign('venta')->references('id')->on('ventas')->onDelete('cascade');
 
-            $table->integer('producto')->nullable()->default(null);
+            $table->integer('producto')->unsigned()->nullable()->default(null);
             $table->foreign('producto')->references('id')->on('productos')->onDelete('cascade');
 
-            $table->integer('tipo')->nullable()->default(null);
+            $table->integer('tipo')->unsigned()->nullable()->default(null);
             $table->foreign('tipo')->references('id')->on('tiposdetalleventas')->onDelete('cascade');
 
             $table->softDeletes();

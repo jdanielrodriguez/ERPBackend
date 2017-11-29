@@ -20,7 +20,7 @@ class CreateGastosTables extends Migration
             $table->double('monto',5,2)->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
             
             $table->softDeletes();

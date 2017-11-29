@@ -26,13 +26,13 @@ class CreateComprasdetalleTables extends Migration
             $table->string('garantia')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('compra')->nullable()->default(null);
+            $table->integer('compra')->unsigned()->nullable()->default(null);
             $table->foreign('compra')->references('id')->on('compras')->onDelete('cascade');
 
-            $table->integer('producto')->nullable()->default(null);
+            $table->integer('producto')->unsigned()->nullable()->default(null);
             $table->foreign('producto')->references('id')->on('productos')->onDelete('cascade');
 
-            $table->integer('tipo')->nullable()->default(null);
+            $table->integer('tipo')->unsigned()->nullable()->default(null);
             $table->foreign('tipo')->references('id')->on('tiposdetallecompras')->onDelete('cascade');
 
             $table->softDeletes();

@@ -22,10 +22,10 @@ class CreateMovimientoscTables extends Migration
             $table->string('descripcion')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('cuentacobrar')->nullable()->default(null);
+            $table->integer('cuentacobrar')->unsigned()->nullable()->default(null);
             $table->foreign('cuentacobrar')->references('id')->on('cuentascobrar')->onDelete('cascade');
 
-            $table->integer('usuario')->nullable()->default(null);
+            $table->integer('usuario')->unsigned()->nullable()->default(null);
             $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
 
             $table->softDeletes();

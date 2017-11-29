@@ -22,10 +22,10 @@ class CreateMovimientospTables extends Migration
             $table->string('descripcion')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
-            $table->integer('cuentapagar')->nullable()->default(null);
+            $table->integer('cuentapagar')->unsigned()->nullable()->default(null);
             $table->foreign('cuentapagar')->references('id')->on('cuentaspagar')->onDelete('cascade');
 
-            $table->integer('usuario')->nullable()->default(null);
+            $table->integer('usuario')->unsigned()->nullable()->default(null);
             $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
 
             $table->softDeletes();

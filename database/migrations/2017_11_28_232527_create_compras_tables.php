@@ -20,16 +20,16 @@ class CreateComprasTables extends Migration
             $table->string('comprobante')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(2);
 
-            $table->integer('tipo')->nullable()->default(null);
+            $table->integer('tipo')->unsigned()->nullable()->default(null);
             $table->foreign('tipo')->references('id')->on('tiposcompra')->onDelete('cascade');
 
-            $table->integer('proveedor')->nullable()->default(null);
+            $table->integer('proveedor')->unsigned()->nullable()->default(null);
             $table->foreign('proveedor')->references('id')->on('proveedores')->onDelete('cascade');
 
-            $table->integer('usuario')->nullable()->default(null);
+            $table->integer('usuario')->unsigned()->nullable()->default(null);
             $table->foreign('usuario')->references('id')->on('usuarios')->onDelete('cascade');
 
-            $table->integer('sucursal')->nullable()->default(null);
+            $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
             $table->softDeletes();

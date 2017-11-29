@@ -18,11 +18,11 @@ class CreateProveedoresTables extends Migration
             $table->string('nombre')->nullable()->default(null);
             $table->string('nit');
 
-            $table->integer('municipio')->nullable()->default(null);
+            $table->integer('municipio')->unsigned()->nullable()->default(null);
             $table->foreign('municipio')->references('id')->on('municipios')->onDelete('cascade');
-            $table->integer('departamento')->nullable()->default(null);
+            $table->integer('departamento')->unsigned()->nullable()->default(null);
             $table->foreign('departamento')->references('id')->on('departamentos')->onDelete('cascade');
-            $table->integer('pais')->nullable()->default(null);
+            $table->integer('pais')->unsigned()->nullable()->default(null);
             $table->foreign('pais')->references('id')->on('paises')->onDelete('cascade');
             
             $table->string('direccion')->nullable()->default(null);
