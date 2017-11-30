@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Marcas;
+use Response;
+use Validator;
 
 class MarcasController extends Controller
 {
@@ -13,7 +17,7 @@ class MarcasController extends Controller
      */
     public function index()
     {
-        //
+        return Response::json(Marcas::all(), 200);
     }
 
     /**
@@ -45,7 +49,18 @@ class MarcasController extends Controller
      */
     public function show($id)
     {
-        //
+        $objectSee = Marcas::find($id);
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
@@ -79,6 +94,25 @@ class MarcasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $objectDelete = Marcas::find($id);
+        if ($objectDelete) {
+            try {
+                Marcas::destroy($id);
+                return Response::json($objectDelete, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 }
