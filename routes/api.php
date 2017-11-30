@@ -13,12 +13,41 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::resource('accesos', 'AccesosController');
+Route::resource('clientes', 'ClientesController');
+Route::resource('comisiones', 'ComisionesController');
+Route::resource('compras', 'ComprasController');
+Route::resource('comprasdetalle', 'ComprasDetalleController');
+Route::resource('correos', 'CorreosController');
+Route::resource('cuentascobrar', 'CuentasCobrarController');
+Route::resource('cuentaspagar', 'CuentasPagarController');
+Route::resource('departamentos', 'DepartamentosController');
+Route::resource('empleados', 'EmpleadosController');
+Route::resource('gastos', 'GastosController');
+Route::resource('inventario', 'InventarioController');
+Route::resource('marcas', 'MarcasController');
+Route::resource('modulos', 'ModulosController');
+Route::resource('movimientosc', 'MovimientosCController');
+Route::resource('movimientosp', 'MovimientosPController');
+Route::resource('municipios', 'MunicipiosController');
+Route::resource('paises', 'PaisesController');
+Route::resource('productos', 'ProductosController');
+Route::resource('proveedores', 'ProveedoresController');
+Route::resource('puestos', 'PuestosController');
+Route::resource('roles', 'RolesController');
+Route::resource('sucursales', 'SucursalesController');
+Route::resource('sueldos', 'SueldosController');
 Route::resource('tiposcompra', 'TiposCompraController');
 Route::resource('tiposventa', 'TiposVentaController');
 Route::resource('tiposdetallecompras', 'TiposDetalleComprasController');
 Route::resource('tiposdetalleventas', 'TiposDetalleVentasController');
-Route::resource('roles', 'RolesController');
-Route::resource('puestos', 'PuestosController');
+Route::resource('usuarios', 'UsuariosController');
+Route::resource('ventas', 'VentasController');
+Route::resource('ventasdetalle', 'VentasDetalleController');
+
+Route::post('usuarios/{id}/upload/avatar', 'UsuariosController@uploadAvatar');
+Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword');
+Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
 
 Route::post('login', 'AuthenticateController@login');
 
