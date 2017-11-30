@@ -12,4 +12,8 @@ class Usuarios extends Authenticatable
     protected $table = 'usuarios';
 
     protected $hidden = array('password','remember_token');
+
+    public function empleados(){
+        return $this->hasOne('App\Empleados','id','empleado');
+    }
 }

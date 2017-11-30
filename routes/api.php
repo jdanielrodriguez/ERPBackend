@@ -48,6 +48,7 @@ Route::resource('ventasdetalle', 'VentasDetalleController');
 Route::post('usuarios/{id}/upload/avatar', 'UsuariosController@uploadAvatar');
 Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword');
 Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
+Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
 
 Route::post('login', 'AuthenticateController@login');
 

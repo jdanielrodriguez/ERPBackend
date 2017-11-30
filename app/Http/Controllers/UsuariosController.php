@@ -23,7 +23,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        return Response::json(Usuarios::all(), 200);
+        return Response::json(Usuarios::with('empleados')->get(), 200);
     }
 
     /**
@@ -104,7 +104,7 @@ class UsuariosController extends Controller
         }
     }
     public function recoveryPassword(Request $request){
-        $objectUpdate = Usuarios::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+        $objectUpdate = Usuarios::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->with('empleados')->first();
         if ($objectUpdate) {
             try {
                 $faker = Faker::create();
@@ -112,10 +112,10 @@ class UsuariosController extends Controller
                 $objectUpdate->password = bcrypt($pass);
                 $objectUpdate->estado = 2;
                 
-                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->username.' '.$objectUpdate->username,], function (Message $message) use ($objectUpdate){
+                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido,], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                             ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->to($objectUpdate->email, $objectUpdate->username.' '.$objectUpdate->username)
+                            ->to($objectUpdate->email, $objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido)
                             ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
                             ->subject('Contraseña Reestablecida');
                 

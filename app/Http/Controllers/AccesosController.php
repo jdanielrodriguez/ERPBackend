@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Accesos;
+use App\Modulos;
 use Response;
 use Validator;
 
@@ -52,6 +53,23 @@ class AccesosController extends Controller
         $objectSee = Accesos::find($id);
         if ($objectSee) {
             return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function getAccesos($id)
+    {
+        $objectSee = Accesos::select('modulo')->whereRaw('usuario=?',[$id])->get();
+        if ($objectSee) {
+            $objectSeeM = Modulos::whereIn('id',$objectSee)->where('estado','=','1')->get();
+            return Response::json($objectSeeM, 200);
         
         }
         else {
