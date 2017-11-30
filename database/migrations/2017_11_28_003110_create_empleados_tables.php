@@ -20,7 +20,7 @@ class CreateEmpleadosTables extends Migration
             $table->string('direccion')->nullable()->default(null);
             $table->string('telefono')->nullable()->default(null);
             $table->string('celular')->nullable();
-            $table->double('sueldo',5,2)->nullable()->default(0);
+            $table->double('sueldo')->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('puesto')->unsigned()->nullable()->default(null);

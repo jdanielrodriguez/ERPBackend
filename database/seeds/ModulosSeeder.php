@@ -43,6 +43,17 @@ class ModulosSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+        
+        DB::table('modulos')->insert([
+            'nombre'           => "Ventas",
+            'dir'              => "../app/img/diagrama.png",
+            'refId'            => "ventas",
+            'tipo'             => 0,
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
 
         DB::table('modulos')->insert([
             'nombre'           => "Cuentas",
@@ -78,17 +89,6 @@ class ModulosSeeder extends Seeder
         ]);
 
         DB::table('modulos')->insert([
-            'nombre'           => "Ventas",
-            'dir'              => "../app/img/diagrama.png",
-            'refId'            => "ventas",
-            'tipo'             => 0,
-            'estado'           => 1,
-            'deleted_at'       => null,
-            'created_at'       => date('Y-m-d H:m:s'),
-            'updated_at'       => date('Y-m-d H:m:s')
-        ]);
-
-        DB::table('modulos')->insert([
             'nombre'           => "Pagos",
             'dir'              => "../app/img/pagos.png",
             'refId'            => "pagos",
@@ -103,7 +103,7 @@ class ModulosSeeder extends Seeder
             'nombre'           => "Clientes",
             'dir'              => "../app/img/clientes.png",
             'refId'            => "clientes1",
-            'tipo'             => 0,
+            'tipo'             => 1,
             'estado'           => 1,
             'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
@@ -114,7 +114,7 @@ class ModulosSeeder extends Seeder
             'nombre'           => "Proveedores",
             'dir'              => "../app/img/proveedores.png",
             'refId'            => "proveedores1",
-            'tipo'             => 0,
+            'tipo'             => 1,
             'estado'           => 1,
             'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),

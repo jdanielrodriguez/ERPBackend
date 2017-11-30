@@ -12,13 +12,74 @@ class UsuariosSeeder extends Seeder
     public function run()
     {
         DB::table('usuarios')->insert([
-            'username'         => "Bicicasa",
-            'password'         => "81584879",
-            'email'            => "Quetzaltenango",
-            'privileges'       => "78954884",
-            'rol'              => "2215487",
-            'empleado'         => "2215487",
-            'sucursal'         => "2215487",
+            'id'               => 3,
+            'username'         => "admin",
+            'password'         => "foxylabs",
+            'email'            => "admin@foxylabs.gt",
+            'privileges'       => 1,
+            'rol'              => 3,
+            'empleado'         => null,
+            'sucursal'         => null,
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+        
+        DB::table('empleados')->insert([
+            'nombre'           => "Daniel",
+            'apellido'         => "Rodriguez",
+            'direccion'        => "Guatemala",
+            'telefono'         => "54646431",
+            'celular'          => "54646431",
+            'sueldo'           => 7000,
+            'estado'           => 1,
+            'puesto'           => 2,
+            'sucursal'         => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('usuarios')->insert([
+            'id'               => 1,
+            'username'         => "daniel",
+            'password'         => "foxylabs",
+            'email'            => "daniel@foxylabs.gt",
+            'privileges'       => 1,
+            'rol'              => 1,
+            'empleado'         => 1,
+            'sucursal'         => null,
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+        
+        DB::table('empleados')->insert([
+            'nombre'           => "Alejandro",
+            'apellido'         => "Godoy",
+            'direccion'        => "Guatemala",
+            'telefono'         => "54795431",
+            'celular'          => "54685431",
+            'sueldo'           => 17000,
+            'estado'           => 1,
+            'puesto'           => 1,
+            'sucursal'         => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('usuarios')->insert([
+            'id'               => 2,
+            'username'         => "alejandro",
+            'password'         => "foxylabs",
+            'email'            => "alejandro@foxylabs.gt",
+            'privileges'       => 1,
+            'rol'              => 2,
+            'empleado'         => 2,
+            'sucursal'         => null,
             'estado'           => 1,
             'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
