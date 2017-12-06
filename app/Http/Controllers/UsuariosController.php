@@ -69,6 +69,7 @@ class UsuariosController extends Controller
                     $newObject->password         = Hash::make($request->get('password'));
                     $newObject->email            = $request->get('email');
                     $newObject->rol              = $request->get('rol');
+                    $newObject->privileges       = $request->get('privileges');
                     $newObject->empleado         = $request->get('empleado');
                     $newObject->sucursal         = $request->get('sucursal');
                     $newObject->save();

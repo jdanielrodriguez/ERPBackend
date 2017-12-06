@@ -19,7 +19,7 @@ class CreateUsuariosTables extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('picture')->nullable()->default('https://d30y9cdsu7xlg0.cloudfront.net/png/17241-200.png');
-            $table->integer('privileges')->default(1);
+            $table->integer('privileges')->nullable()->default(1);
             $table->tinyInteger('estado')->default(1);
 
             $table->integer('rol')->unsigned()->nullable()->default(null);
