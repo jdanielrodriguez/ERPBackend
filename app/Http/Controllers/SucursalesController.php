@@ -38,7 +38,38 @@ class SucursalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre'          => 'required',
+            'direccion'       => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $newObject = new Sucursales();
+                $newObject->nombre            = $request->get('nombre');
+                $newObject->nit               = $request->get('nit');
+                $newObject->direccion         = $request->get('direccion');
+                $newObject->telefono          = $request->get('telefono');
+                $newObject->codigo            = $request->get('codigo');
+                $newObject->descripcion       = $request->get('descripcion');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
 
     /**
@@ -83,7 +114,33 @@ class SucursalesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Sucursales::find($id);
+        if ($objectUpdate) {
+            try {
+                $objectUpdate->nombre            = $request->get('nombre', $objectUpdate->nombre);
+                $objectUpdate->nit               = $request->get('nit', $objectUpdate->nit);
+                $objectUpdate->direccion         = $request->get('direccion', $objectUpdate->direccion);
+                $objectUpdate->telefono          = $request->get('telefono', $objectUpdate->telefono);
+                $objectUpdate->codigo            = $request->get('codigo', $objectUpdate->codigo);
+                $objectUpdate->descripcion       = $request->get('descripcion', $objectUpdate->descripcion);
+                $objectUpdate->estado            = $request->get('estado', $objectUpdate->estado);
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
