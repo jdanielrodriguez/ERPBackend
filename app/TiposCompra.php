@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TiposCompra extends Model
 {
     use SoftDeletes;
-    protected $table = 'tipocompra';
+    protected $table = 'tiposcompra';
 }
