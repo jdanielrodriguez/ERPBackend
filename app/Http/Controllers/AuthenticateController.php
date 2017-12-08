@@ -34,7 +34,7 @@ class AuthenticateController extends Controller
                 );
 
                 if(Auth::attempt($userdata, true)) {
-                    $user = Usuarios::with('empleados')->find(Auth::user()->id);
+                    $user = Usuarios::with('empleados','roles')->find(Auth::user()->id);
                     $user->save();
                     
                     return Response::json($user, 200);
