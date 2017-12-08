@@ -16,4 +16,8 @@ class Usuarios extends Authenticatable
     public function empleados(){
         return $this->hasOne('App\Empleados','id','empleado');
     }
+
+    public function roles(){
+        return $this->hasOne('App\Roles','id','rol');
+    }
 }
