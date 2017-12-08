@@ -38,7 +38,37 @@ class ProveedoresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre'       => 'required',
+            'nit'          => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $newObject = new Proveedores();
+                $newObject->nombre            = $request->get('nombre');
+                $newObject->nit               = $request->get('nit');
+                $newObject->direccion         = $request->get('direccion');
+                $newObject->telefono          = $request->get('telefono');
+                $newObject->cuenta            = $request->get('cuenta');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
 
     /**
@@ -83,7 +113,47 @@ class ProveedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Proveedores::find($id);
+        if ($objectUpdate) {
+            try {
+                $objectUpdate->nombre            = $request->get('nombre', $objectUpdate->nombre);
+                $objectUpdate->nit               = $request->get('nit', $objectUpdate->nit);
+                $objectUpdate->direccion         = $request->get('direccion', $objectUpdate->direccion);
+                $objectUpdate->telefono          = $request->get('telefono', $objectUpdate->telefono);
+                $objectUpdate->cuenta            = $request->get('cuenta', $objectUpdate->cuenta);
+                $objectUpdate->estado            = $request->get('estado', $objectUpdate->estado);
+                $objectUpdate->municipio         = $request->get('municipio', $objectUpdate->municipio);
+                $objectUpdate->departamento      = $request->get('departamento', $objectUpdate->departamento);
+                $objectUpdate->pais              = $request->get('pais', $objectUpdate->pais);
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (\Illuminate\Database\QueryException $e) {
+                if($e->errorInfo[0] == '01000'){
+                    $errorMessage = "Error Constraint";
+                }  else {
+                    $errorMessage = $e->getMessage();
+                }
+                $returnData = array (
+                    'status' => 505,
+                    'SQLState' => $e->errorInfo[0],
+                    'message' => $errorMessage
+                );
+                return Response::json($returnData, 500);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
