@@ -23,7 +23,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        return Response::json(Usuarios::with('empleados')->get(), 200);
+        return Response::json(Usuarios::with('empleados','roles')->get(), 200);
     }
 
     /**
