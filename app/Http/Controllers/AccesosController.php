@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Accesos;
 use App\Modulos;
 use Response;
+use DB;
 use Validator;
 
 class AccesosController extends Controller
@@ -39,7 +40,70 @@ class AccesosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'usuario'          => 'required',
+            'modulo'           => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            $objectUpdate = Accesos::whereRaw('modulo=? and usuario=?',[$request->get('modulo'),$request->get('usuario')])->first();
+            if ($objectUpdate) {
+                try {
+                    $objectUpdate->agregar   = $request->get('agregar', $objectUpdate->agregar);
+                    $objectUpdate->eliminar  = $request->get('eliminar', $objectUpdate->eliminar);
+                    $objectUpdate->modificar = $request->get('modificar', $objectUpdate->modificar);
+                    $objectUpdate->mostrar   = $request->get('mostrar', $objectUpdate->mostrar);
+            
+                    $objectUpdate->save();
+                    return Response::json($objectUpdate, 200);
+                } catch (Exception $e) {
+                    $returnData = array (
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                    return Response::json($returnData, 500);
+                }
+            }
+            else {
+                try {
+                    $newObject = new Accesos();
+                    $newObject->agregar            = $request->get('agregar',0);
+                    $newObject->eliminar           = $request->get('eliminar',0);
+                    $newObject->modificar          = $request->get('modificar',0);
+                    $newObject->mostrar            = $request->get('mostrar',0);
+                    $newObject->usuario            = $request->get('usuario');
+                    $newObject->modulo             = $request->get('modulo');
+                    $newObject->save();
+                    return Response::json($newObject, 200);
+                
+                } catch (\Illuminate\Database\QueryException $e) {
+                    if($e->errorInfo[0] == '01000'){
+                        $errorMessage = "Error Constraint";
+                    }  else {
+                        $errorMessage = $e->getMessage();
+                    }
+                    $returnData = array (
+                        'status' => 505,
+                        'SQLState' => $e->errorInfo[0],
+                        'message' => $errorMessage
+                    );
+                    return Response::json($returnData, 500);
+                } catch (Exception $e) {
+                    $returnData = array (
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                    return Response::json($returnData, 500);
+                }
+            }
+        }
     }
 
     /**
@@ -68,8 +132,34 @@ class AccesosController extends Controller
     {
         $objectSee = Accesos::select('modulo')->whereRaw('usuario=?',[$id])->get();
         if ($objectSee) {
-            $objectSeeM = Modulos::whereIn('id',$objectSee)->where('estado','=','1')->get();
+            // $objectSeeM = Modulos::whereIn('id',$objectSee)->with('accesos')->where('estado','=','1')->where('accesos.usuario','=',$id)->get();
+            $objectSeeM = \DB::table('modulos')
+            ->select('id','nombre','tipo','refId','dir',
+            DB::raw('(select agregar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as agregar'),
+            DB::raw('(select modificar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as modificar'),
+            DB::raw('(select mostrar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as mostrar'),
+            DB::raw('(select eliminar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as eliminar'))
+            ->whereIn('modulos.id',$objectSee)
+            ->where('modulos.estado', '=', '1')
+            ->get();
             return Response::json($objectSeeM, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function getAcceso($id,$id2)
+    {
+        $objectSee = Accesos::where('modulo','=',$id2)->where('usuario','=',$id)->first();
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
         
         }
         else {

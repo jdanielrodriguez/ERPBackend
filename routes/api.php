@@ -49,6 +49,7 @@ Route::post('usuarios/{id}/upload/avatar', 'UsuariosController@uploadAvatar');
 Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword');
 Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
 Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
+Route::get('usuarios/{id}/modulos/{id2}', 'AccesosController@getAcceso');
 
 Route::post('login', 'AuthenticateController@login');
 
