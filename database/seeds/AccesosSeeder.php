@@ -136,6 +136,18 @@ class AccesosSeeder extends Seeder
             'modificar'        => 1,
             'mostrar'          => 1,
             'eliminar'         => 1,
+            'usuario'          => 3,
+            'modulo'           => 11,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('accesos')->insert([
+            'agregar'          => 1,
+            'modificar'        => 1,
+            'mostrar'          => 1,
+            'eliminar'         => 1,
             'usuario'          => 1,
             'modulo'           => 1,
             'deleted_at'       => null,
@@ -256,6 +268,18 @@ class AccesosSeeder extends Seeder
             'modificar'        => 1,
             'mostrar'          => 1,
             'eliminar'         => 1,
+            'usuario'          => 1,
+            'modulo'           => 11,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('accesos')->insert([
+            'agregar'          => 1,
+            'modificar'        => 1,
+            'mostrar'          => 1,
+            'eliminar'         => 1,
             'usuario'          => 2,
             'modulo'           => 1,
             'deleted_at'       => null,
@@ -366,6 +390,18 @@ class AccesosSeeder extends Seeder
             'eliminar'         => 1,
             'usuario'          => 2,
             'modulo'           => 10,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('accesos')->insert([
+            'agregar'          => 1,
+            'modificar'        => 1,
+            'mostrar'          => 1,
+            'eliminar'         => 1,
+            'usuario'          => 2,
+            'modulo'           => 11,
             'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')

@@ -16,8 +16,11 @@ class CreateModulosTables extends Migration
         Schema::create('modulos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre')->nullable()->default(null);
+            $table->string('icono')->nullable()->default(null);
+            $table->string('link')->nullable()->default(null);
             $table->string('dir')->nullable()->default(null);
             $table->string('refId')->nullable()->default(null);
+            $table->integer('orden')->nullable()->default(null);
             $table->tinyInteger('tipo')->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
             

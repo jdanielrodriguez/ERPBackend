@@ -38,7 +38,40 @@ class ModulosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre'          => 'required',
+            'icono'           => 'required',
+            'link'            => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $newObject = new Modulos();
+                $newObject->nombre            = $request->get('nombre');
+                $newObject->icono             = $request->get('icono');
+                $newObject->link              = $request->get('link');
+                $newObject->dir               = $request->get('dir');
+                $newObject->refId             = $request->get('refId');
+                $newObject->tipo              = $request->get('tipo',0);
+                $newObject->orden             = $request->get('orden',0);
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
 
     /**
@@ -83,7 +116,34 @@ class ModulosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Modulos::find($id);
+        if ($objectUpdate) {
+            try {
+                $objectUpdate->nombre            = $request->get('nombre', $objectUpdate->nombre);
+                $objectUpdate->icono             = $request->get('icono', $objectUpdate->icono);
+                $objectUpdate->link              = $request->get('link', $objectUpdate->link);
+                $objectUpdate->dir               = $request->get('dir', $objectUpdate->dir);
+                $objectUpdate->refId             = $request->get('refId', $objectUpdate->refId);
+                $objectUpdate->tipo              = $request->get('tipo', $objectUpdate->tipo);
+                $objectUpdate->estado            = $request->get('estado', $objectUpdate->estado);
+                $objectUpdate->orden             = $request->get('orden', $objectUpdate->orden);
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**

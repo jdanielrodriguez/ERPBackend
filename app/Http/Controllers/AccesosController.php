@@ -134,13 +134,14 @@ class AccesosController extends Controller
         if ($objectSee) {
             // $objectSeeM = Modulos::whereIn('id',$objectSee)->with('accesos')->where('estado','=','1')->where('accesos.usuario','=',$id)->get();
             $objectSeeM = \DB::table('modulos')
-            ->select('id','nombre','tipo','refId','dir',
+            ->select('id','nombre','tipo','refId','dir','link','icono',
             DB::raw('(select agregar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as agregar'),
             DB::raw('(select modificar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as modificar'),
             DB::raw('(select mostrar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as mostrar'),
             DB::raw('(select eliminar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as eliminar'))
             ->whereIn('modulos.id',$objectSee)
             ->where('modulos.estado', '=', '1')
+            ->orderby('orden')
             ->get();
             return Response::json($objectSeeM, 200);
         
