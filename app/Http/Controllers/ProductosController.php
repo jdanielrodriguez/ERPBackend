@@ -38,7 +38,38 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'codigo'          => 'required',
+            'nombre'          => 'required',
+            'tipo'            => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $newObject = new Productos();
+                $newObject->descripcion       = $request->get('descripcion');
+                $newObject->nombre            = $request->get('nombre');
+                $newObject->codigo            = $request->get('codigo');
+                $newObject->marcaDes          = $request->get('marcaDes');
+                $newObject->tipo              = $request->get('tipo');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
 
     /**
@@ -83,7 +114,46 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Productos::find($id);
+        if ($objectUpdate) {
+            try {
+                $objectUpdate->descripcion       = $request->get('descripcion', $objectUpdate->descripcion);
+                $objectUpdate->nombre            = $request->get('nombre', $objectUpdate->nombre);
+                $objectUpdate->codigo            = $request->get('codigo', $objectUpdate->codigo);
+                $objectUpdate->marcaDes          = $request->get('marcaDes', $objectUpdate->marcaDes);
+                $objectUpdate->tipo              = $request->get('tipo', $objectUpdate->tipo);
+                $objectUpdate->estado            = $request->get('estado', $objectUpdate->estado);
+                $objectUpdate->marca             = $request->get('marca', $objectUpdate->marca);
+                
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (\Illuminate\Database\QueryException $e) {
+                if($e->errorInfo[0] == '01000'){
+                    $errorMessage = "Error Constraint";
+                }  else {
+                    $errorMessage = $e->getMessage();
+                }
+                $returnData = array (
+                    'status' => 505,
+                    'SQLState' => $e->errorInfo[0],
+                    'message' => $errorMessage
+                );
+                return Response::json($returnData, 500);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
