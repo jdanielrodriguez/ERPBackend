@@ -17,7 +17,12 @@ class CuentasCobrarController extends Controller
      */
     public function index()
     {
-        return Response::json(CuentasCobrar::all(), 200);
+        return Response::json(CuentasCobrar::where('total','>=','1')->with('ventas','movimientos')->get(), 200);
+    }
+
+    public function pagadas()
+    {
+        return Response::json(CuentasCobrar::where('total','<','1')->with('ventas','movimientos')->get(), 200);
     }
 
     /**
@@ -49,7 +54,7 @@ class CuentasCobrarController extends Controller
      */
     public function show($id)
     {
-        $objectSee = CuentasCobrar::find($id);
+        $objectSee = CuentasCobrar::with('ventas','movimientos')->find($id);
         if ($objectSee) {
             return Response::json($objectSee, 200);
         

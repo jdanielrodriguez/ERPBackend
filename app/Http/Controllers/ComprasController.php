@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Compras;
 use App\ComprasDetalle;
 use App\Inventario;
+use App\CuentasPagar;
 use Response;
 use DB;
 use Validator;
@@ -72,6 +73,15 @@ class ComprasController extends Controller
                 $newObject->fecha                = $request->get('fecha');
                 $newObject->tipo                 = $request->get('tipo');
                 $newObject->save();
+                if($newObject->tipo==2 || $newObject->tipo=='2'){
+                    $newCount = new CuentasPagar();
+                    $newCount->creditoDado            = $request->get('total');
+                    $newCount->total                  = $request->get('total');
+                    $newCount->plazo                  = $request->get('plazo');
+                    $newCount->tipoPlazo              = $request->get('tipoPlazo');
+                    $newCount->compra                 = $newObject->id;
+                    $newCount->save();
+                }
                 if ( $request->get('detalle') )
                 {
                    $Array = $request->get('detalle');

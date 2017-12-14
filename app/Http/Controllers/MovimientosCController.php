@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\MovimientosC;
+use App\CuentasCobrar;
 use Response;
 use Validator;
 
@@ -38,7 +39,61 @@ class MovimientosCController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'abono'          => 'required',
+            'descripcion'    => 'required',
+            'cuentapagar'    => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $objectUpdate = CuentasCobrar::find($request->get('cuentapagar'));
+                if ($objectUpdate) {
+                    try {
+                        $objectUpdate->total = $objectUpdate->total-$request->get('abono');
+                
+                        $objectUpdate->save();
+                        $newObject = new MovimientosC();
+                        $newObject->credito          = $objectUpdate->total+$request->get('abono');
+                        $newObject->abono            = $request->get('abono');
+                        $newObject->saldo            = $objectUpdate->total;
+                        $newObject->fecha            = $request->get('fecha');
+                        $newObject->descripcion      = $request->get('descripcion');
+                        $newObject->cuentacobrar      = $objectUpdate->id;
+                        $newObject->save();
+                        $objectUpdate->movimientos;
+                        $objectUpdate->ventas;
+                        return Response::json($objectUpdate, 200);
+                    } catch (Exception $e) {
+                        $returnData = array (
+                            'status' => 500,
+                            'message' => $e->getMessage()
+                        );
+                        return Response::json($returnData, 500);
+                    }
+                }
+                else {
+                    $returnData = array (
+                        'status' => 404,
+                        'message' => 'No record found'
+                    );
+                    return Response::json($returnData, 404);
+                }           
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
 
     /**

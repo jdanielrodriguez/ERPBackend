@@ -85,5 +85,30 @@ class UsuariosSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+
+        DB::table('proveedores')->insert([
+            'nombre'           => "CF",
+            'direccion'        => "Ciudad",
+            'telefono'         => "000000",
+            'cuenta'           => "000000",
+            'nit'              => "CF",
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('clientes')->insert([
+            'nombre'           => "CF",
+            'apellido'         => "CF",
+            'direccion'        => "Ciudad",
+            'telefono'         => "000000",
+            'celular'           => "000000",
+            'nit'              => "CF",
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
     }
 }

@@ -21,7 +21,7 @@ class CreateCuentascobrarTables extends Migration
             $table->timestamp('fechaAnt')->nullable()->default(null);
             $table->integer('plazo')->nullable()->default(null);
             $table->integer('tipoPlazo')->nullable()->default(null);
-            $table->tinyInteger('estado')->nullable()->default(2);
+            $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('venta')->unsigned()->nullable()->default(null);
             $table->foreign('venta')->references('id')->on('ventas')->onDelete('cascade');

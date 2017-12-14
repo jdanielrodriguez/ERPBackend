@@ -21,6 +21,11 @@ class ProductosController extends Controller
         return Response::json(Productos::with('inventario')->get(), 200);
     }
 
+    public function existencia()
+    {
+        return Response::json(Inventario::where('cantidad','>','0')->with('productos')->get(), 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

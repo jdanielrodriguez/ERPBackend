@@ -17,7 +17,12 @@ class CuentasPagarController extends Controller
      */
     public function index()
     {
-        return Response::json(CuentasPagar::all(), 200);
+        return Response::json(CuentasPagar::where('total','>=','1')->with('compras','movimientos')->get(), 200);
+    }
+
+    public function pagadas()
+    {
+        return Response::json(CuentasPagar::where('total','<','1')->with('compras','movimientos')->get(), 200);
     }
 
     /**
@@ -49,7 +54,7 @@ class CuentasPagarController extends Controller
      */
     public function show($id)
     {
-        $objectSee = CuentasPagar::find($id);
+        $objectSee = CuentasPagar::with('compras','movimientos')->find($id);
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
