@@ -24,7 +24,7 @@ class CreateComprasdetalleTables extends Migration
             $table->double('descuento',7,2)->nullable()->default(null);
             $table->date('vencimiento')->nullable()->default(null);
             $table->string('garantia')->nullable()->default(null);
-            $table->tinyInteger('estado')->nullable()->default(2);
+            $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('compra')->unsigned()->nullable()->default(null);
             $table->foreign('compra')->references('id')->on('compras')->onDelete('cascade');
