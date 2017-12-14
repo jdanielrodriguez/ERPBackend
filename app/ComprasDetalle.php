@@ -9,4 +9,8 @@ class ComprasDetalle extends Model
 {
     use SoftDeletes;
     protected $table = 'comprasdetalle';
+
+    public function productos(){
+        return $this->hasOne('App\Productos','id','producto');
+    }
 }
