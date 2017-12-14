@@ -53,6 +53,7 @@ Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
 Route::get('usuarios/{id}/modulos/{id2}', 'AccesosController@getAcceso');
 Route::get('anuladas/compras', 'ComprasController@anuladas');
 Route::get('buscar/proveedores', 'ProveedoresController@find');
+Route::get('buscar/clientes', 'ClientesController@find');
 
 Route::post('login', 'AuthenticateController@login');
 
