@@ -52,6 +52,7 @@ Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
 Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
 Route::get('usuarios/{id}/modulos/{id2}', 'AccesosController@getAcceso');
 Route::get('anuladas/compras', 'ComprasController@anuladas');
+Route::get('buscar/proveedores', 'ProveedoresController@find');
 
 Route::post('login', 'AuthenticateController@login');
 

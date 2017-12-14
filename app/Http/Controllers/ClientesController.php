@@ -94,6 +94,22 @@ class ClientesController extends Controller
         }
     }
 
+    public function find(Request $request)
+    {
+        $objectSee = Clientes::whereRaw('nit=? || nombre=?',[$request->get('nit'),$request->get('nit')])->first();
+        if ($objectSee) {
+
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
