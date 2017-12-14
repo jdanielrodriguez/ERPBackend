@@ -9,4 +9,8 @@ class Productos extends Model
 {
     use SoftDeletes;
     protected $table = 'productos';
+
+    public function inventario(){
+        return $this->hasOne('App\Inventario','producto','id');
+    }
 }

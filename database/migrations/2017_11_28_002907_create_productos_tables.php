@@ -19,9 +19,10 @@ class CreateProductosTables extends Migration
             $table->string('nombre')->nullable();
             $table->string('codigo')->nullable();
             $table->string('marcaDes')->nullable()->default(null);
-            $table->tinyInteger('tipo')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
+            $table->integer('tipo')->unsigned()->nullable()->default(null);
+            $table->foreign('tipo')->references('id')->on('tiposproducto')->onDelete('cascade');
             $table->integer('marca')->unsigned()->nullable()->default(null);
             $table->foreign('marca')->references('id')->on('marcas')->onDelete('cascade');
             

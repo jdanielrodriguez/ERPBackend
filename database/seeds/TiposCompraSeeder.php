@@ -58,5 +58,21 @@ class TiposCompraSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+
+        DB::table('tiposproducto')->insert([
+            'descripcion'      => "Moto",
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('tiposproducto')->insert([
+            'descripcion'      => "Carro",
+            'estado'           => 1,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
     }
 }

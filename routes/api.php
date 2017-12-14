@@ -38,6 +38,7 @@ Route::resource('roles', 'RolesController');
 Route::resource('sucursales', 'SucursalesController');
 Route::resource('sueldos', 'SueldosController');
 Route::resource('tiposcompra', 'TiposCompraController');
+Route::resource('tiposproducto', 'TiposProductoController');
 Route::resource('tiposventa', 'TiposVentaController');
 Route::resource('tiposdetallecompras', 'TiposDetalleComprasController');
 Route::resource('tiposdetalleventas', 'TiposDetalleVentasController');
@@ -50,6 +51,7 @@ Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword')
 Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
 Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
 Route::get('usuarios/{id}/modulos/{id2}', 'AccesosController@getAcceso');
+Route::get('anuladas/compras', 'ComprasController@anuladas');
 
 Route::post('login', 'AuthenticateController@login');
 
