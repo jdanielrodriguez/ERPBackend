@@ -54,6 +54,20 @@ class ModulosSeeder extends Seeder
         ]);
 
         DB::table('modulos')->insert([
+            'nombre'           => "Empleados",
+            'dir'              => "../app/img/usuariotab.png",
+            'refId'            => "usuario",
+            'icono'            => "user",
+            'link'             => "empleados",
+            'tipo'             => 0,
+            'estado'           => 1,
+            'orden'            => 3,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
+
+        DB::table('modulos')->insert([
             'nombre'           => "Compras",
             'dir'              => "../app/img/carro-de-la-compra.png",
             'refId'            => "compras",

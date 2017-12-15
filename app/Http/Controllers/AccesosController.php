@@ -56,12 +56,34 @@ class AccesosController extends Controller
             $objectUpdate = Accesos::whereRaw('modulo=? and usuario=?',[$request->get('modulo'),$request->get('usuario')])->first();
             if ($objectUpdate) {
                 try {
+                    
                     $objectUpdate->agregar   = $request->get('agregar', $objectUpdate->agregar);
                     $objectUpdate->eliminar  = $request->get('eliminar', $objectUpdate->eliminar);
                     $objectUpdate->modificar = $request->get('modificar', $objectUpdate->modificar);
                     $objectUpdate->mostrar   = $request->get('mostrar', $objectUpdate->mostrar);
-            
                     $objectUpdate->save();
+                    if($objectUpdate->agregar==0 && $objectUpdate->eliminar==0 && $objectUpdate->modificar==0 && $objectUpdate->mostrar==0){
+                        $objectDelete = Accesos::find($objectUpdate->id);
+                        if ($objectDelete) {
+                            try {
+                                Accesos::destroy($objectUpdate->id);
+                                return Response::json($objectDelete, 200);
+                            } catch (Exception $e) {
+                                $returnData = array (
+                                    'status' => 500,
+                                    'message' => $e->getMessage()
+                                );
+                                return Response::json($returnData, 500);
+                            }
+                        }
+                        else {
+                            $returnData = array (
+                                'status' => 404,
+                                'message' => 'No record found'
+                            );
+                            return Response::json($returnData, 404);
+                        }
+                    }
                     return Response::json($objectUpdate, 200);
                 } catch (Exception $e) {
                     $returnData = array (
@@ -130,20 +152,35 @@ class AccesosController extends Controller
 
     public function getAccesos($id)
     {
-        $objectSee = Accesos::select('modulo')->whereRaw('usuario=?',[$id])->get();
+        $objectSee = Accesos::select('modulo')->whereRaw('usuario=?',[$id])->orderby('modulo')->get();
         if ($objectSee) {
             // $objectSeeM = Modulos::whereIn('id',$objectSee)->with('accesos')->where('estado','=','1')->where('accesos.usuario','=',$id)->get();
             $objectSeeM = \DB::table('modulos')
             ->select('id','nombre','tipo','refId','dir','link','icono',
-            DB::raw('(select agregar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as agregar'),
-            DB::raw('(select modificar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as modificar'),
-            DB::raw('(select mostrar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as mostrar'),
-            DB::raw('(select eliminar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.') as eliminar'))
+            DB::raw('(select agregar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as agregar'),
+            DB::raw('(select modificar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as modificar'),
+            DB::raw('(select mostrar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as mostrar'),
+            DB::raw('(select eliminar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as eliminar'))
             ->whereIn('modulos.id',$objectSee)
             ->where('modulos.estado', '=', '1')
+            ->where('modulos.tipo', '=', '1')
             ->orderby('orden')
             ->get();
-            return Response::json($objectSeeM, 200);
+            $objectSeeP = \DB::table('modulos')
+            ->select('id','nombre','tipo','refId','dir','link','icono',
+            DB::raw('(select agregar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as agregar'),
+            DB::raw('(select modificar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as modificar'),
+            DB::raw('(select mostrar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as mostrar'),
+            DB::raw('(select eliminar from accesos where accesos.modulo = modulos.id and accesos.usuario = '.$id.' order by accesos.deleted_at  limit 1) as eliminar'))
+            ->whereIn('modulos.id',$objectSee)
+            ->where('modulos.estado', '=', '1')
+            ->where('modulos.tipo', '=', '0')
+            ->orderby('orden')
+            ->get();
+            $myObject = (object) array("permitidos" => [], "ocultos" => []);
+            $myObject->permitidos = $objectSeeP;
+            $myObject->ocultos    = $objectSeeM;
+            return Response::json($myObject, 200);
         
         }
         else {
