@@ -11,6 +11,6 @@ class Inventario extends Model
     protected $table = 'inventario';
 
     public function productos(){
-        return $this->hasOne('App\Productos','id','producto');
+        return $this->hasOne('App\Productos','id','producto')->with('tipos');
     }
 }

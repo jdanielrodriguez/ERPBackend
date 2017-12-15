@@ -13,4 +13,8 @@ class Productos extends Model
     public function inventario(){
         return $this->hasOne('App\Inventario','producto','id');
     }
+
+    public function tipos(){
+        return $this->hasOne('App\TiposProducto','id','tipo');
+    }
 }

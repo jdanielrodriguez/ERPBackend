@@ -17,7 +17,7 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        return Response::json(Inventario::all(), 200);
+        return Response::json(Inventario::with('productos')->get(), 200);
     }
 
     /**
