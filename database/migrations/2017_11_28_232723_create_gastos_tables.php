@@ -15,9 +15,9 @@ class CreateGastosTables extends Migration
     {
         Schema::create('gastos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion')->nullable();
-            $table->date('fecha')->nullable();
-            $table->double('monto',5,2)->nullable()->default(0);
+            $table->string('descripcion')->nullable()->default(null);
+            $table->date('fecha')->nullable()->default(null);
+            $table->double('monto',15,2)->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('sucursal')->unsigned()->nullable()->default(null);
