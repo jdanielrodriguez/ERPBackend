@@ -15,9 +15,9 @@ class CreateUsuariosTables extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username')->unique();
+            $table->string('username');
             $table->string('password');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('picture')->nullable()->default('https://d30y9cdsu7xlg0.cloudfront.net/png/17241-200.png');
             $table->integer('privileges')->nullable()->default(1);
             $table->tinyInteger('estado')->default(1);

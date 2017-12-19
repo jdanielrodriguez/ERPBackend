@@ -72,7 +72,17 @@ class UsuariosController extends Controller
                     $newObject->privileges       = $request->get('privileges');
                     $newObject->empleado         = $request->get('empleado');
                     $newObject->sucursal         = $request->get('sucursal');
+                    $newObject->estado           = 21;
                     $newObject->save();
+                    $newObject->empleados;
+                    Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->empleados->nombre.' '.$newObject->empleados->apellido,], function (Message $message) use ($newObject){
+                        $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->to($newObject->email, $newObject->empleados->nombre.' '.$newObject->empleados->apellido)
+                                ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->subject('Usuario Creado');
+                    
+                    });
                     return Response::json($newObject, 200);
                 
                 } catch (\Illuminate\Database\QueryException $e) {
@@ -111,7 +121,7 @@ class UsuariosController extends Controller
                 $faker = Faker::create();
                 $pass = $faker->password();
                 $objectUpdate->password = bcrypt($pass);
-                $objectUpdate->estado = 2;
+                $objectUpdate->estado = 21;
                 
                 Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido,], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
@@ -144,7 +154,7 @@ class UsuariosController extends Controller
     public function changePassword(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'new_pass' => 'required|min:3|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/',
+            'new_pass' => 'required|min:3',//|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/
             'old_pass'      => 'required'
         ]);
 
