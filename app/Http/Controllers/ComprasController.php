@@ -197,10 +197,34 @@ class ComprasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         $objectUpdate = Compras::find($id);
         if ($objectUpdate) {
             try {
                 $objectUpdate->estado = $request->get('estado', $objectUpdate->estado);
+                if($objectUpdate->tipo==2 || $objectUpdate->tipo=='2'){
+                    $objectDelete = CuentasPagar::whereRaw('compra=?',[$objectUpdate->id])->first();
+                    if ($objectDelete) {
+                        try {
+                            CuentasPagar::destroy($objectDelete->id);
+                        } catch (Exception $e) {
+                            DB::rollback();
+                            $returnData = array (
+                                'status' => 500,
+                                'message' => $e->getMessage()
+                            );
+                            return Response::json($returnData, 500);
+                        }
+                    }
+                    else {
+                        DB::rollback();
+                        $returnData = array (
+                            'status' => 404,
+                            'message' => 'No record found'
+                        );
+                        return Response::json($returnData, 404);
+                    }
+                }
                 $objectUpdate->save();
                 $objectUpdate2 = ComprasDetalle::whereRaw('compra=?',$id)->get();
                 if ($objectUpdate2) {
@@ -210,8 +234,23 @@ class ComprasController extends Controller
                             if ($actualiza) {
                                 try {
                                     $actualiza->estado = $request->get('estado', $actualiza->estado);
+                                        $inventario = Inventario::whereRaw('producto=?',[$actualiza->producto])->first();
+                                        if ($inventario) {
+                                            if(($inventario->cantidad)>=($actualiza->cantidad)){
+                                                $inventario->cantidad = $inventario->cantidad-$actualiza->cantidad;
+                                                $inventario->save();
+                                            }else{
+                                                DB::rollback();
+                                                $returnData = array (
+                                                    'status' => 402,
+                                                    'message' => "El Producto ya se ha vendido"
+                                                );
+                                                return Response::json($returnData, 402);
+                                            }
+                                        }
                                     $actualiza->save();
                                 } catch (Exception $e) {
+                                    DB::rollback();
                                     $returnData = array (
                                         'status' => 500,
                                         'message' => $e->getMessage()
@@ -220,6 +259,7 @@ class ComprasController extends Controller
                                 }
                             }
                             else {
+                                DB::rollback();
                                 $returnData = array (
                                     'status' => 404,
                                     'message' => 'No record found'
@@ -227,9 +267,10 @@ class ComprasController extends Controller
                                 return Response::json($returnData, 404);
                             }
                         }
-                        
+                        DB::commit();
                         return Response::json($objectUpdate, 200);
                     } catch (Exception $e) {
+                        DB::rollback();
                         $returnData = array (
                             'status' => 500,
                             'message' => $e->getMessage()
@@ -238,6 +279,7 @@ class ComprasController extends Controller
                     }
                 }
                 else {
+                    DB::rollback();
                     $returnData = array (
                         'status' => 404,
                         'message' => 'No record found'
@@ -245,6 +287,7 @@ class ComprasController extends Controller
                     return Response::json($returnData, 404);
                 }
             } catch (Exception $e) {
+                DB::rollback();
                 $returnData = array (
                     'status' => 500,
                     'message' => $e->getMessage()
@@ -253,6 +296,7 @@ class ComprasController extends Controller
             }
         }
         else {
+            DB::rollback();
             $returnData = array (
                 'status' => 404,
                 'message' => 'No record found'
