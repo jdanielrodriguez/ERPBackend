@@ -59,6 +59,7 @@ Route::get('pagadas/cuentaspagar', 'CuentasPagarController@pagadas');
 Route::get('pagadas/cuentascobrar', 'CuentasCobrarController@pagadas');
 Route::get('existencia/productos', 'ProductosController@existencia');
 Route::get('admin/inventario', 'InventarioController@admin');
+Route::get('comprobante/ventas', 'VentasController@comprobante');
 
 Route::post('login', 'AuthenticateController@login');
 

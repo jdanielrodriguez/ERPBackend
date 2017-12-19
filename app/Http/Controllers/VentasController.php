@@ -31,7 +31,16 @@ class VentasController extends Controller
 
     public function comprobante()
     {
-        return Response::json(Ventas::where('estado','=','0')->with('clientes','tipos')->get(), 200);
+        $objectSee = Ventas::orderby('id','desc')->first();
+        if ($objectSee) {
+            $objectSee->clientes;
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $myObject = (object) array("comprobante" => 0);
+            return Response::json($myObject, 200);
+        }
     }
 
     /**
@@ -187,7 +196,7 @@ class VentasController extends Controller
             return Response::json($returnData, 404);
         }
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
