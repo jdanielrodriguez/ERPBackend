@@ -197,6 +197,28 @@ class VentasController extends Controller
         }
     }
     
+    public function estadisticaVendedores(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy(DB::raw('date(ventas.fecha)'))
+        ->get();
+        // $objectSee = Ventas::whereRaw('(fecha>=? and fecha<=?)',[$request->get('fechaInicio'),$request->get('fechaFin')])->get();
+        
+        if ($objectSee) {
+
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -49,6 +49,7 @@ Route::resource('ventasdetalle', 'VentasDetalleController');
 Route::post('usuarios/{id}/upload/avatar', 'UsuariosController@uploadAvatar');
 Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword');
 Route::post('usuarios/password/reset', 'UsuariosController@recoveryPassword');
+
 Route::get('usuarios/{id}/modulos', 'AccesosController@getAccesos');
 Route::get('usuarios/{id}/modulos/{id2}', 'AccesosController@getAcceso');
 Route::get('anuladas/compras', 'ComprasController@anuladas');
@@ -61,6 +62,7 @@ Route::get('existencia/productos', 'ProductosController@existencia');
 Route::get('admin/inventario', 'InventarioController@admin');
 Route::get('comprobante/ventas', 'VentasController@comprobante');
 
+Route::get('vendedores/estadistica', 'VentasController@estadisticaVendedores');
 Route::post('login', 'AuthenticateController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
