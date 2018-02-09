@@ -62,7 +62,13 @@ Route::get('existencia/productos', 'ProductosController@existencia');
 Route::get('admin/inventario', 'InventarioController@admin');
 Route::get('comprobante/ventas', 'VentasController@comprobante');
 
-Route::get('vendedores/estadistica', 'VentasController@estadisticaVendedores');
+Route::get('vendedores/estadistica/barra', 'VentasController@estadisticaVendedoresBarra');
+Route::get('clientes/estadistica/barra', 'VentasController@estadisticaClientesBarra');
+Route::get('ventas/estadistica/barra', 'VentasController@estadisticaVentasBarra');
+Route::get('ventas/estadistica/pie', 'VentasController@estadisticaVentasPie');
+Route::get('clientes/estadistica/pie', 'VentasController@estadisticaClientesPie');
+Route::get('vendedores/estadistica/pie', 'VentasController@estadisticaVendedoresPie');
+
 Route::post('login', 'AuthenticateController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

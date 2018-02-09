@@ -197,14 +197,135 @@ class VentasController extends Controller
         }
     }
     
-    public function estadisticaVendedores(Request $request){
+    public function estadisticaVendedoresBarra(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
         ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy('usuarios.username')
         ->groupBy(DB::raw('date(ventas.fecha)'))
         ->get();
-        // $objectSee = Ventas::whereRaw('(fecha>=? and fecha<=?)',[$request->get('fechaInicio'),$request->get('fechaFin')])->get();
+        
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function estadisticaClientesBarra(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventas.total) as total'),'clientes.nombre','clientes.apellido','ventas.fecha')
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy('clientes.nombre','clientes.apellido')
+        ->groupBy(DB::raw('date(ventas.fecha)'))
+        ->get();
+        
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function estadisticaVentasBarra(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventas.total) as total'),'ventas.fecha')
+        // ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        // ->groupBy('clientes.nombre','clientes.apellido')
+        ->groupBy(DB::raw('date(ventas.fecha)'))
+        ->get();
+        
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function estadisticaVentasPie(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventasdetalle.cantidad) as total'),'ventasdetalle.subtotal','ventas.fecha','productos.nombre')
+        ->join('ventasdetalle', 'ventasdetalle.venta', '=', 'ventas.id')
+        ->join('productos', 'productos.id', '=', 'ventasdetalle.producto')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy('productos.id')
+        ->orderby(DB::raw('sum(ventasdetalle.cantidad)'),'desc')
+        ->limit(5)
+        ->get();
+        //$sql = "SELECT (dv.subtotal),sum(dv.cantidad),p.nombre,p.codigoproducto,p.tiporepuesto FROM ventas v  
+        // inner join ventasdetalle dv on dv.idventa=v.idventas 
+        // inner join productos p on p.idproductos=dv.idproductos 
+        // inner join usuarios u on v.idusuario=u.idusuarios 
+        // where (v.fecha>'".$datos[0]."' and v.fecha<'".$fecha3."') and v.estado=1 
+        // group by p.idproductos order by sum(dv.cantidad) desc limit 5;";
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function estadisticaClientesPie(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventas.total) as total'),'clientes.nombre','clientes.apellido','ventas.fecha')
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy('clientes.nombre','clientes.nombre')
+        ->get();
+        
+        if ($objectSee) {
+
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function estadisticaVendedoresPie(Request $request){
+        $objectSee = \DB::table('ventas')
+        ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
+        ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
+        ->groupBy('usuarios.username')
+        ->get();
         
         if ($objectSee) {
 
