@@ -15,7 +15,7 @@ class CreateVentasTables extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('total',5,2)->nullable()->default(null);
+            $table->double('total',50,2)->nullable()->default(null);
             $table->date('fecha')->nullable()->default(null);
             $table->string('comprobante')->nullable()->default(1);
             $table->tinyInteger('estado')->nullable()->default(1);

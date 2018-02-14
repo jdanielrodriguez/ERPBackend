@@ -15,8 +15,8 @@ class CreateCuentascobrarTables extends Migration
     {
         Schema::create('cuentascobrar', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('creditoDado',5,2)->nullable()->default(null);
-            $table->double('total',5,2)->nullable()->default(null);
+            $table->double('creditoDado',50,2)->nullable()->default(null);
+            $table->double('total',50,2)->nullable()->default(null);
             $table->timestamp('fecha')->useCurrent();
             $table->timestamp('fechaAnt')->nullable()->default(null);
             $table->integer('plazo')->nullable()->default(null);

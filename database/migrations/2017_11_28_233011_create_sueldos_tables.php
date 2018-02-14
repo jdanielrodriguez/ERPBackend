@@ -17,7 +17,7 @@ class CreateSueldosTables extends Migration
             $table->increments('id');
             $table->string('descripcion')->nullable()->default(null);
             $table->date('fecha')->nullable()->default(null);
-            $table->double('monto',7,2)->nullable()->default(null);
+            $table->double('monto',70,2)->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
             
             $table->integer('empleado')->unsigned()->nullable()->default(null);

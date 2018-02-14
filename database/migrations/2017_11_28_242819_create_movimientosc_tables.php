@@ -15,9 +15,9 @@ class CreateMovimientoscTables extends Migration
     {
         Schema::create('movimientosc', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('credito',5,2)->nullable()->default(null);
-            $table->double('abono',5,2)->nullable()->default(null);
-            $table->double('saldo',7,2)->nullable()->default(null);
+            $table->double('credito',50,2)->nullable()->default(null);
+            $table->double('abono',15,2)->nullable()->default(null);
+            $table->double('saldo',70,2)->nullable()->default(null);
             $table->timestamp('fecha')->useCurrent();
             $table->string('descripcion')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);

@@ -15,13 +15,13 @@ class CreateComprasdetalleTables extends Migration
     {
         Schema::create('comprasdetalle', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('subtotal',5,2)->nullable()->default(null);
-            $table->double('cantidad',5,2)->nullable()->default(null);
-            $table->double('costo',7,2)->nullable()->default(null);
-            $table->double('precio',7,2)->nullable()->default(null);
-            $table->double('precioE',7,2)->nullable()->default(null);
-            $table->double('precioM',7,2)->nullable()->default(null);
-            $table->double('descuento',7,2)->nullable()->default(null);
+            $table->double('subtotal',15,2)->nullable()->default(null);
+            $table->double('cantidad',15,2)->nullable()->default(null);
+            $table->double('costo',17,2)->nullable()->default(null);
+            $table->double('precio',17,2)->nullable()->default(null);
+            $table->double('precioE',17,2)->nullable()->default(null);
+            $table->double('precioM',17,2)->nullable()->default(null);
+            $table->double('descuento',17,2)->nullable()->default(null);
             $table->date('vencimiento')->nullable()->default(null);
             $table->string('garantia')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);

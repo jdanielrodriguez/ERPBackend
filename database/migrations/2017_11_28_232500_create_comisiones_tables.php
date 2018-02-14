@@ -17,9 +17,9 @@ class CreateComisionesTables extends Migration
             $table->increments('id');
             $table->date('fechaini')->nullable()->default(null);
             $table->date('fechafin')->nullable()->default(null);
-            $table->double('monto',5,2)->nullable()->default(null);
-            $table->double('porcentaje',5,2)->nullable()->default(null);
-            $table->double('total',7,2)->nullable()->default(null);
+            $table->double('monto',50,2)->nullable()->default(null);
+            $table->double('porcentaje',50,2)->nullable()->default(null);
+            $table->double('total',70,2)->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('usuario')->unsigned()->nullable()->default(null);
