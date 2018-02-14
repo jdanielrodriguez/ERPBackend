@@ -121,12 +121,12 @@ class VentasController extends Controller
                                 }else{
                                     DB::rollback();
                                     $returnData = array (
-                                        'status' => 404,
+                                        'status' => 401,
                                         'message' => 'No hay Existencias suficientes',
                                         'existe' => $objectUpdate->cantidad,
                                         'cantidad' => $value['cantidad']
                                     );
-                                    return Response::json($returnData, 404);
+                                    return Response::json($returnData, 401);
                                 }
                             } catch (Exception $e) {
                                 $returnData = array (
