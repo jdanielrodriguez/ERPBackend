@@ -46,7 +46,7 @@ class UsuariosController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username'          => 'required',
-            'password'          => 'required|min:3|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/',
+            'password'          => 'required|min:3',//|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/
             'email'          => 'required|email'
         ]);
         if ( $validator->fails() ) {
@@ -75,11 +75,11 @@ class UsuariosController extends Controller
                     $newObject->estado           = 21;
                     $newObject->save();
                     $newObject->empleados;
-                    Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->empleados->nombre.' '.$newObject->empleados->apellido,], function (Message $message) use ($newObject){
-                        $message->from('info@foxylabs.gt', 'Info FoxyLabs')
-                                ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                                ->to($newObject->email, $newObject->empleados->nombre.' '.$newObject->empleados->apellido)
-                                ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                    Mail::send('emails.confirm', ['empresa' => 'Hector Repuestos', 'url' => 'https://foxylabs.gt', 'app' => 'http://v2.mmmhr3.com', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->empleados?$newObject->empleados->nombre.' '.$newObject->empleados->apellido:$newObject->username,], function (Message $message) use ($newObject){
+                        $message->from('info@foxylabs.gt', 'Info Hector Repuestos')
+                                ->sender('info@foxylabs.gt', 'Info Hector Repuestos')
+                                ->to($newObject->email, $newObject->empleados?$newObject->empleados->nombre.' '.$newObject->empleados->apellido:$newObject->username)
+                                ->replyTo('info@foxylabs.gt', 'Info Hector Repuestos')
                                 ->subject('Usuario Creado');
                     
                     });
@@ -123,10 +123,10 @@ class UsuariosController extends Controller
                 $objectUpdate->password = bcrypt($pass);
                 $objectUpdate->estado = 21;
                 
-                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido,], function (Message $message) use ($objectUpdate){
+                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->empleados?$objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido:$objectUpdate->username,], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                             ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->to($objectUpdate->email, $objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido)
+                            ->to($objectUpdate->email, $objectUpdate->empleados?$objectUpdate->empleados->nombre.' '.$objectUpdate->empleados->apellido:$objectUpdate->username)
                             ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
                             ->subject('Contraseña Reestablecida');
                 
