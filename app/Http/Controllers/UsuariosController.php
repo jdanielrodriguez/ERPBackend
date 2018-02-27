@@ -75,11 +75,11 @@ class UsuariosController extends Controller
                     $newObject->estado           = 21;
                     $newObject->save();
                     $newObject->empleados;
-                    Mail::send('emails.confirm', ['empresa' => 'Hector Repuestos', 'url' => 'https://foxylabs.gt', 'app' => 'http://v2.mmmhr3.com', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->empleados?$newObject->empleados->nombre.' '.$newObject->empleados->apellido:$newObject->username,], function (Message $message) use ($newObject){
-                        $message->from('info@foxylabs.gt', 'Info Hector Repuestos')
-                                ->sender('info@foxylabs.gt', 'Info Hector Repuestos')
+                    Mail::send('emails.confirm', ['empresa' => 'Foxylabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://v2.mmmhr3.com', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->empleados?$newObject->empleados->nombre.' '.$newObject->empleados->apellido:$newObject->username,], function (Message $message) use ($newObject){
+                        $message->from('info@foxylabs.gt', 'Info Foxylabs')
+                                ->sender('info@foxylabs.gt', 'Info Foxylabs')
                                 ->to($newObject->email, $newObject->empleados?$newObject->empleados->nombre.' '.$newObject->empleados->apellido:$newObject->username)
-                                ->replyTo('info@foxylabs.gt', 'Info Hector Repuestos')
+                                ->replyTo('info@foxylabs.gt', 'Info Foxylabs')
                                 ->subject('Usuario Creado');
                     
                     });
