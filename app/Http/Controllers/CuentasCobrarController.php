@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\CuentasCobrar;
+use App\Ventas;
 use Response;
 use Validator;
 
@@ -55,6 +56,23 @@ class CuentasCobrarController extends Controller
     public function show($id)
     {
         $objectSee = CuentasCobrar::with('ventas','movimientos')->find($id);
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function cuentasByClient($id)
+    {
+        $ventas = Ventas::select('id')->whereRaw('cliente=?',$id)->get();
+        $objectSee = CuentasCobrar::whereIn('venta',$ventas)->with('ventas','movimientos')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         

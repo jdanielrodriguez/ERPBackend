@@ -61,6 +61,8 @@ Route::get('pagadas/cuentascobrar', 'CuentasCobrarController@pagadas');
 Route::get('existencia/productos', 'ProductosController@existencia');
 Route::get('admin/inventario', 'InventarioController@admin');
 Route::get('comprobante/ventas', 'VentasController@comprobante');
+Route::get('ventas/by/clientes/{id}', 'VentasController@ventasByClient');
+Route::get('cuentascobrar/by/clientes/{id}', 'CuentasCobrarController@cuentasByClient');
 
 Route::get('vendedores/estadistica/barra', 'VentasController@estadisticaVendedoresBarra');
 Route::get('clientes/estadistica/barra', 'VentasController@estadisticaClientesBarra');

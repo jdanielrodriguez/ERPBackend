@@ -197,6 +197,22 @@ class VentasController extends Controller
         }
     }
     
+    public function ventasByClient($id)
+    {
+        $objectSee = Ventas::whereRaw('cliente=?',$id)->with('detalle','clientes','tipos')->get();
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
     public function estadisticaVendedoresBarra(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
