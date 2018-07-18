@@ -178,5 +178,19 @@ class ModulosSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+
+        DB::table('modulos')->insert([
+            'nombre'           => "Contabilidad",
+            'dir'              => "../app/img/reparacion-mecanismo.png",
+            'refId'            => "conta",
+            'icono'            => "fa fa-bar-chart-o",
+            'link'             => "contabilidad/diario",
+            'tipo'             => 0,
+            'estado'           => 1,
+            'orden'            => 12,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
     }
 }
