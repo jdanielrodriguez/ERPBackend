@@ -192,5 +192,19 @@ class ModulosSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+
+        DB::table('modulos')->insert([
+            'nombre'           => "Llamadas",
+            'dir'              => "../app/img/phone.png",
+            'refId'            => "conta",
+            'icono'            => "phone",
+            'link'             => "llamadas",
+            'tipo'             => 0,
+            'estado'           => 1,
+            'orden'            => 13,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
     }
 }

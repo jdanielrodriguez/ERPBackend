@@ -18,6 +18,7 @@ class CreateClientesTables extends Migration
             $table->string('nombre')->nullable()->default(null);
             $table->string('apellido')->nullable()->default(null);
             $table->string('nit');
+            $table->string('interesado')->nullable()->default(null);
 
             $table->integer('municipio')->unsigned()->nullable()->default(null);
             $table->foreign('municipio')->references('id')->on('municipios')->onDelete('cascade');
