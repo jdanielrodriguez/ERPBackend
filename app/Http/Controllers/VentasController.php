@@ -11,6 +11,7 @@ use App\CuentasCobrar;
 use Response;
 use DB;
 use Validator;
+use PHPShopify;
 
 class VentasController extends Controller
 {
@@ -51,6 +52,19 @@ class VentasController extends Controller
     public function create()
     {
         //
+    }
+    
+    public function Ordenes()
+    {
+        $config = array(
+            'ShopUrl' => 'guatedirect.myshopify.com',
+            'ApiKey' => 'c811a2b2e74dfb273ab0f499e82974f1',
+            'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
+        );
+        $shopify = new PHPShopify\ShopifySDK($config);
+        $products = $shopify->Order->get();
+        return Response::json($products, 200);
+
     }
 
     /**
