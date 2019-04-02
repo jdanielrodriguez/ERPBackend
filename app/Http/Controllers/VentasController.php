@@ -77,7 +77,7 @@ class VentasController extends Controller
             'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
         );
         $shopify = new PHPShopify\ShopifySDK($config);
-        $products = $shopify->Products->get();
+        $products = $shopify->Product->get();
         return Response::json($products, 200);
 
     }
@@ -105,7 +105,7 @@ class VentasController extends Controller
             'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
         );
         $shopify = new PHPShopify\ShopifySDK($config);
-        $products = $shopify->Products($id)->get();
+        $products = $shopify->Product($id)->get();
         return Response::json($products, 200);
 
     }
