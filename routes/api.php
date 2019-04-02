@@ -65,6 +65,9 @@ Route::get('ventas/by/clientes/{id}', 'VentasController@ventasByClient');
 Route::get('cuentascobrar/by/clientes/{id}', 'CuentasCobrarController@cuentasByClient');
 
 Route::get('shopify/orders', 'VentasController@Ordenes');
+Route::get('shopify/products', 'VentasController@Products');
+Route::get('shopify/orders/{id}', 'VentasController@OrdenesSingle');
+Route::get('shopify/products/{id}', 'VentasController@ProductsSingle');
 Route::get('vendedores/estadistica/barra', 'VentasController@estadisticaVendedoresBarra');
 Route::get('clientes/estadistica/barra', 'VentasController@estadisticaClientesBarra');
 Route::get('ventas/estadistica/barra', 'VentasController@estadisticaVentasBarra');

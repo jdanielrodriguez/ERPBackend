@@ -67,6 +67,49 @@ class VentasController extends Controller
 
     }
 
+
+    
+    public function Products()
+    {
+        $config = array(
+            'ShopUrl' => 'guatedirect.myshopify.com',
+            'ApiKey' => 'c811a2b2e74dfb273ab0f499e82974f1',
+            'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
+        );
+        $shopify = new PHPShopify\ShopifySDK($config);
+        $products = $shopify->Products->get();
+        return Response::json($products, 200);
+
+    }
+    
+    public function OrdenesSingle($id)
+    {
+        $config = array(
+            'ShopUrl' => 'guatedirect.myshopify.com',
+            'ApiKey' => 'c811a2b2e74dfb273ab0f499e82974f1',
+            'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
+        );
+        $shopify = new PHPShopify\ShopifySDK($config);
+        $products = $shopify->Order($id)->get();
+        return Response::json($products, 200);
+
+    }
+
+
+    
+    public function ProductsSingle($id)
+    {
+        $config = array(
+            'ShopUrl' => 'guatedirect.myshopify.com',
+            'ApiKey' => 'c811a2b2e74dfb273ab0f499e82974f1',
+            'Password' => '4a85141b78c49844c3d17dbcb1d0787b',
+        );
+        $shopify = new PHPShopify\ShopifySDK($config);
+        $products = $shopify->Products($id)->get();
+        return Response::json($products, 200);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
