@@ -21,4 +21,8 @@ class Ventas extends Model
     public function tipos(){
         return $this->hasOne('App\TiposVenta','id','tipo');
     }
+
+    public function vehiculos(){
+        return $this->hasMany('App\Vehiculos','vehiculo','id');
+    }
 }

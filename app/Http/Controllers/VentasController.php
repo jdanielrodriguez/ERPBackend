@@ -22,12 +22,12 @@ class VentasController extends Controller
      */
     public function index()
     {
-        return Response::json(Ventas::where('estado','=','1')->with('clientes','tipos')->get(), 200);
+        return Response::json(Ventas::where('estado','=','1')->with('clientes','tipos','vehiculos')->get(), 200);
     }
 
     public function anuladas()
     {
-        return Response::json(Ventas::where('estado','=','0')->with('clientes','tipos')->get(), 200);
+        return Response::json(Ventas::where('estado','=','0')->with('clientes','tipos','vehiculos')->get(), 200);
     }
 
     public function comprobante()
@@ -144,6 +144,7 @@ class VentasController extends Controller
                 $newObject->fecha                = $request->get('fecha');
                 $newObject->tipo                 = $request->get('tipo');
                 $newObject->comprobante          = $request->get('comprobante');
+                $newObject->vehiculo          = $request->get('vehiculo');
                 $newObject->save();
                 if($newObject->tipo==2 || $newObject->tipo=='2'){
                     $newCount = new CuentasCobrar();
@@ -240,7 +241,7 @@ class VentasController extends Controller
      */
     public function show($id)
     {
-        $objectSee = Ventas::with('detalle','clientes','tipos')->find($id);
+        $objectSee = Ventas::with('detalle','clientes','tipos','vehiculos')->find($id);
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -256,7 +257,7 @@ class VentasController extends Controller
     
     public function ventasByClient($id)
     {
-        $objectSee = Ventas::whereRaw('cliente=?',$id)->with('detalle','clientes','tipos')->get();
+        $objectSee = Ventas::whereRaw('cliente=?',$id)->with('detalle','clientes','tipos','vehiculos')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         

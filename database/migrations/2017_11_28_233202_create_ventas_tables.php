@@ -32,6 +32,9 @@ class CreateVentasTables extends Migration
             $table->integer('sucursal')->unsigned()->nullable()->default(null);
             $table->foreign('sucursal')->references('id')->on('sucursales')->onDelete('cascade');
 
+            $table->integer('vehiculo')->unsigned()->nullable()->default(null);
+            $table->foreign('vehiculo')->references('id')->on('vehiculos')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });
