@@ -94,6 +94,20 @@ class ModulosSeeder extends Seeder
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
+        
+        DB::table('modulos')->insert([
+            'nombre'           => "Taller",
+            'dir'              => "../app/img/diagrama.png",
+            'refId'            => "taller",
+            'icono'            => "gear",
+            'link'             => "taller",
+            'tipo'             => 0,
+            'estado'           => 1,
+            'orden'            => 6,
+            'deleted_at'       => null,
+            'created_at'       => date('Y-m-d H:m:s'),
+            'updated_at'       => date('Y-m-d H:m:s')
+        ]);
 
         DB::table('modulos')->insert([
             'nombre'           => "Cuentas",
