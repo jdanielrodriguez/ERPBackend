@@ -45,6 +45,9 @@ Route::resource('tiposdetalleventas', 'TiposDetalleVentasController');
 Route::resource('usuarios', 'UsuariosController');
 Route::resource('ventas', 'VentasController');
 Route::resource('ventasdetalle', 'VentasDetalleController');
+Route::resource('vehiculos', 'VehiculosController');
+
+Route::get('usuarios/{id}/vehiculos', 'VehiculosController@getThisByClient');
 
 Route::post('usuarios/{id}/upload/avatar', 'UsuariosController@uploadAvatar');
 Route::post('usuarios/{id}/changepassword', 'UsuariosController@changePassword');
