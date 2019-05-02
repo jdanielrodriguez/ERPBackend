@@ -23,6 +23,6 @@ class Ventas extends Model
     }
 
     public function vehiculos(){
-        return $this->hasMany('App\Vehiculos','id','vehiculo');
+        return $this->hasOne('App\Vehiculos','id','vehiculo');
     }
 }
