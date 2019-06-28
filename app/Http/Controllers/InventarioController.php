@@ -96,6 +96,7 @@ class InventarioController extends Controller
                             $objectActualiza->cantidad           = $request->get('cantidad', $objectActualiza->cantidad);
                             $objectActualiza->minimo             = $request->get('minimo', $objectActualiza->minimo);
                             $objectActualiza->descuento          = $request->get('descuento', $objectActualiza->descuento);
+                            $objectActualiza->sucursal          = $request->get('sucursal', $objectActualiza->sucursal);
                             $objectActualiza->save();
                             $objectActualiza->productos;
                             return Response::json($objectActualiza, 200);
@@ -141,6 +142,7 @@ class InventarioController extends Controller
                             $newObject->cantidad           = $request->get('cantidad');
                             $newObject->minimo             = $request->get('minimo');
                             $newObject->descuento          = $request->get('descuento');
+                            $newObject->sucursal          = $request->get('sucursal');
                             $newObject->save();
                             $newObject->productos;
                             return Response::json($newObject, 200);
@@ -246,6 +248,7 @@ class InventarioController extends Controller
                     $objectUpdate->cantidad           = $request->get('cantidad', $objectUpdate->cantidad);
                     $objectUpdate->minimo             = $request->get('minimo', $objectUpdate->minimo);
                     $objectUpdate->descuento          = $request->get('descuento', $objectUpdate->descuento);
+                    $objectUpdate->sucursal          = $request->get('sucursal', $objectUpdate->sucursal);
                     $objectUpdate->save();
                     $objectActualiza = Productos::find($request->get('producto'));
                     if ($objectActualiza) {
