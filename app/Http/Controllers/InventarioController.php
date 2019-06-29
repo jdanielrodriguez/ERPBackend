@@ -22,6 +22,41 @@ class InventarioController extends Controller
         return Response::json(Inventario::with('productos')->get(), 200);
     }
 
+    public function getThisByFilter(Request $request, $id,$state)
+    {
+        if($request->get('filter')){
+            switch ($request->get('filter')) {
+                case 'sucursal':{
+                    $objectSee = Inventario::whereRaw('sucursal=?',[$state])->with('productos')->get();
+                    break;
+                }
+                case 'productos':{
+                    $objectSee = Inventario::whereRaw('productos=?',[$state])->with('productos')->get();
+                    break;
+                }
+                default:{
+                    $objectSee = Inventario::whereRaw('user=? and state=?',[$id,$state])->with('productos')->get();
+                    break;
+                }
+
+            }
+        }else{
+            $objectSee = Inventario::with('productos')->get();
+        }
+
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
     public function admin()
     {
         $objectSeeM = \DB::table('inventario')
