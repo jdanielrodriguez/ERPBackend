@@ -17,6 +17,7 @@ class CreateVentasdetalleTables extends Migration
             $table->increments('id');
             $table->double('subtotal',15,2)->nullable()->default(null);
             $table->double('cantidad',15,2)->nullable()->default(null);
+            $table->double('cantidadTemp',15,2)->nullable()->default(null);
             $table->double('precio',17,2)->nullable()->default(null);
             $table->double('precioE',17,2)->nullable()->default(null);
             $table->double('precioM',17,2)->nullable()->default(null);
@@ -24,9 +25,13 @@ class CreateVentasdetalleTables extends Migration
             $table->date('vencimiento')->nullable()->default(null);
             $table->string('garantia')->nullable()->default(null);
             $table->tinyInteger('estado')->nullable()->default(1);
+            $table->tinyInteger('taller')->nullable()->default(0);
 
             $table->integer('venta')->unsigned()->nullable()->default(null);
             $table->foreign('venta')->references('id')->on('ventas')->onDelete('cascade');
+
+            $table->integer('parent')->unsigned()->nullable()->default(null);
+            $table->foreign('parent')->references('id')->on('ventasdetalle')->onDelete('cascade');
 
             $table->integer('producto')->unsigned()->nullable()->default(null);
             $table->foreign('producto')->references('id')->on('productos')->onDelete('cascade');

@@ -13,7 +13,7 @@ use DB;
 use Validator;
 use PHPShopify;
 
-class VentasController extends Controller
+class TallerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,12 +22,12 @@ class VentasController extends Controller
      */
     public function index()
     {
-        return Response::json(Ventas::where('estado','=','1')->where('taller','=','0')->with('clientes','tipos','vehiculos')->get(), 200);
+        return Response::json(Ventas::where('estado','=','1')->where('taller','=','1')->with('clientes','tipos','vehiculos')->get(), 200);
     }
 
     public function anuladas()
     {
-        return Response::json(Ventas::where('estado','=','0')->where('taller','=','0')->with('clientes','tipos','vehiculos')->get(), 200);
+        return Response::json(Ventas::where('estado','=','0')->where('taller','=','1')->with('clientes','tipos','vehiculos')->get(), 200);
     }
 
     public function comprobante()
@@ -144,6 +144,7 @@ class VentasController extends Controller
                 $newObject->fecha                = $request->get('fecha');
                 $newObject->tipo                 = $request->get('tipo');
                 $newObject->comprobante          = $request->get('comprobante');
+                $newObject->taller          = 1;
                 $newObject->vehiculo          = $request->get('vehiculo');
                 $newObject->save();
                 if($newObject->tipo==2 || $newObject->tipo=='2'){
@@ -175,6 +176,7 @@ class VentasController extends Controller
                                     $registro->venta       = $newObject->id;
                                     $registro->producto    = $value['producto'];
                                     $registro->tipo        = $newObject->tipo;
+                                    $registro->taller        = 1;
                                     $registro->save();
                                 }else{
                                     DB::rollback();
@@ -241,7 +243,7 @@ class VentasController extends Controller
      */
     public function show($id)
     {
-        $objectSee = Ventas::where('taller','=','0')->with('detalle','clientes','tipos','vehiculos')->find($id);
+        $objectSee = Ventas::where('taller','=','1')->with('detalle','clientes','tipos','vehiculos')->find($id);
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -257,7 +259,7 @@ class VentasController extends Controller
     
     public function ventasByClient($id)
     {
-        $objectSee = Ventas::whereRaw('cliente=?',$id)->where('taller','=','0')->with('detalle','clientes','tipos','vehiculos')->get();
+        $objectSee = Ventas::whereRaw('cliente=?',$id)->where('taller','=','1')->with('detalle','clientes','tipos','vehiculos')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -274,7 +276,7 @@ class VentasController extends Controller
     public function estadisticaVendedoresBarra(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
-        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')->where('ventas.taller','=','0')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         ->groupBy('usuarios.username')
         ->groupBy(DB::raw('date(ventas.fecha)'))
@@ -297,7 +299,7 @@ class VentasController extends Controller
     public function estadisticaClientesBarra(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'clientes.nombre','clientes.apellido','ventas.fecha')
-        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')->where('ventas.taller','=','0')
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         ->groupBy('clientes.nombre','clientes.apellido')
         ->groupBy(DB::raw('date(ventas.fecha)'))
@@ -319,7 +321,7 @@ class VentasController extends Controller
 
     public function estadisticaVentasBarra(Request $request){
         $objectSee = \DB::table('ventas')
-        ->select(DB::raw('sum(ventas.total) as total'),'ventas.fecha')->where('ventas.taller','=','0')
+        ->select(DB::raw('sum(ventas.total) as total'),'ventas.fecha')
         // ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         // ->groupBy('clientes.nombre','clientes.apellido')
@@ -345,7 +347,7 @@ class VentasController extends Controller
         ->select(DB::raw('sum(ventasdetalle.cantidad) as total'),'ventasdetalle.subtotal','ventas.fecha','productos.nombre')
         ->join('ventasdetalle', 'ventasdetalle.venta', '=', 'ventas.id')
         ->join('productos', 'productos.id', '=', 'ventasdetalle.producto')
-        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')->where('ventas.taller','=','0')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         ->groupBy('productos.id')
         ->orderby(DB::raw('sum(ventasdetalle.cantidad)'),'desc')
@@ -374,7 +376,7 @@ class VentasController extends Controller
     public function estadisticaClientesPie(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'clientes.nombre','clientes.apellido','ventas.fecha')
-        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')->where('ventas.taller','=','0')
+        ->join('clientes', 'clientes.id', '=', 'ventas.cliente')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         ->groupBy('clientes.nombre','clientes.nombre')
         ->get();
@@ -396,7 +398,7 @@ class VentasController extends Controller
     public function estadisticaVendedoresPie(Request $request){
         $objectSee = \DB::table('ventas')
         ->select(DB::raw('sum(ventas.total) as total'),'usuarios.username','ventas.fecha')
-        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')->where('ventas.taller','=','0')
+        ->join('usuarios', 'usuarios.id', '=', 'ventas.usuario')
         ->whereRaw('(ventas.fecha>=? and ventas.fecha<=?) and ventas.estado=1',[$request->get('fechaInicio'),$request->get('fechaFin')])
         ->groupBy('usuarios.username')
         ->get();

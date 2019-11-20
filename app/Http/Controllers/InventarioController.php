@@ -106,100 +106,24 @@ class InventarioController extends Controller
             return Response::json($returnData, 400);
         }
         else {
-            $objectUpdate = Productos::whereRaw('codigo=?',[$request->get('codigo')])->first();
-            if ($objectUpdate) {
-                $returnData = array (
-                    'status' => 402,
-                    'message' => "El codigo ya existe"
-                );
-                return Response::json($returnData, 402);
+            if($request->get('id')){
                 try {
-                    $objectUpdate->nombre      = $request->get('nombre', $objectUpdate->nombre);
-                    $objectUpdate->descripcion = $request->get('descripcion', $objectUpdate->descripcion);
-                    $objectUpdate->codigo      = $request->get('codigo', $objectUpdate->codigo);
-                    $objectUpdate->marcaDes    = $request->get('marcaDes', $objectUpdate->marcaDes);
-                    $objectUpdate->tipo        = $request->get('tipo', $objectUpdate->tipo);
-            
-                    $objectUpdate->save();
-                    $objectActualiza = Inventario::whereRaw('producto=?',[$objectUpdate->id])->first();
-                    if ($objectActualiza) {
-                        try {
-                            $objectActualiza->precioCosto        = $request->get('precioCosto', $objectActualiza->precioCosto);
-                            $objectActualiza->precioVenta        = $request->get('precioVenta', $objectActualiza->precioVenta);
-                            $objectActualiza->precioClienteEs    = $request->get('precioClienteEs', $objectActualiza->precioClienteEs);
-                            $objectActualiza->precioDistribuidor = $request->get('precioDistribuidor', $objectActualiza->precioDistribuidor);
-                            $objectActualiza->cantidad           = $request->get('cantidad', $objectActualiza->cantidad);
-                            $objectActualiza->minimo             = $request->get('minimo', $objectActualiza->minimo);
-                            $objectActualiza->descuento          = $request->get('descuento', $objectActualiza->descuento);
-                            $objectActualiza->sucursal          = $request->get('sucursal', $objectActualiza->sucursal);
-                            $objectActualiza->save();
-                            $objectActualiza->productos;
-                            return Response::json($objectActualiza, 200);
-                        } catch (Exception $e) {
-                            $returnData = array (
-                                'status' => 500,
-                                'message' => $e->getMessage()
-                            );
-                            return Response::json($returnData, 500);
-                        }
+                    $objectUpdate = Productos::whereRaw('id=?',[$request->get('id')])->first();
+                    if ($objectUpdate) {
+                        $newObject = new Inventario();
+                        $newObject->producto           = $objectUpdate->id;
+                        $newObject->precioCosto        = $request->get('precioCosto');
+                        $newObject->precioVenta        = $request->get('precioVenta');
+                        $newObject->precioClienteEs    = $request->get('precioClienteEs');
+                        $newObject->precioDistribuidor = $request->get('precioDistribuidor');
+                        $newObject->cantidad           = $request->get('cantidad');
+                        $newObject->minimo             = $request->get('minimo');
+                        $newObject->descuento          = $request->get('descuento');
+                        $newObject->sucursal          = $request->get('sucursal');
+                        $newObject->save();
+                        $newObject->productos;
+                        return Response::json($newObject, 200);
                     }
-                    else {
-                        $returnData = array (
-                            'status' => 404,
-                            'message' => 'No record found'
-                        );
-                        return Response::json($returnData, 404);
-                    }
-                } catch (Exception $e) {
-                    $returnData = array (
-                        'status' => 500,
-                        'message' => $e->getMessage()
-                    );
-                    return Response::json($returnData, 500);
-                }
-            }
-            else {
-                try {
-                    $objectNuevo = new Productos();
-                    $objectNuevo->nombre      = $request->get('nombre');
-                    $objectNuevo->descripcion = $request->get('descripcion');
-                    $objectNuevo->codigo      = $request->get('codigo');
-                    $objectNuevo->marcaDes    = $request->get('marcaDes');
-                    $objectNuevo->tipo        = $request->get('tipo');
-                    $objectNuevo->save();
-                        try {
-                            $newObject = new Inventario();
-                            $newObject->producto           = $objectNuevo->id;
-                            $newObject->precioCosto        = $request->get('precioCosto');
-                            $newObject->precioVenta        = $request->get('precioVenta');
-                            $newObject->precioClienteEs    = $request->get('precioClienteEs');
-                            $newObject->precioDistribuidor = $request->get('precioDistribuidor');
-                            $newObject->cantidad           = $request->get('cantidad');
-                            $newObject->minimo             = $request->get('minimo');
-                            $newObject->descuento          = $request->get('descuento');
-                            $newObject->sucursal          = $request->get('sucursal');
-                            $newObject->save();
-                            $newObject->productos;
-                            return Response::json($newObject, 200);
-                        } catch (\Illuminate\Database\QueryException $e) {
-                            if($e->errorInfo[0] == '01000'){
-                                $errorMessage = "Error Constraint";
-                            }  else {
-                                $errorMessage = $e->getMessage();
-                            }
-                            $returnData = array (
-                                'status' => 505,
-                                'SQLState' => $e->errorInfo[0],
-                                'message' => $errorMessage
-                            );
-                            return Response::json($returnData, 500);
-                        } catch (Exception $e) {
-                            $returnData = array (
-                                'status' => 500,
-                                'message' => $e->getMessage()
-                            );
-                            return Response::json($returnData, 500);
-                        }
                 } catch (\Illuminate\Database\QueryException $e) {
                     if($e->errorInfo[0] == '01000'){
                         $errorMessage = "Error Constraint";
@@ -219,7 +143,123 @@ class InventarioController extends Controller
                     );
                     return Response::json($returnData, 500);
                 }
+            }else{
+                $objectUpdate = Productos::whereRaw('codigo=?',[$request->get('codigo')])->first();
+                if ($objectUpdate) {
+                    $returnData = array (
+                        'status' => 402,
+                        'message' => "El codigo ya existe"
+                    );
+                    return Response::json($returnData, 402);
+                    try {
+                        $objectUpdate->nombre      = $request->get('nombre', $objectUpdate->nombre);
+                        $objectUpdate->descripcion = $request->get('descripcion', $objectUpdate->descripcion);
+                        $objectUpdate->codigo      = $request->get('codigo', $objectUpdate->codigo);
+                        $objectUpdate->marcaDes    = $request->get('marcaDes', $objectUpdate->marcaDes);
+                        $objectUpdate->tipo        = $request->get('tipo', $objectUpdate->tipo);
+                
+                        $objectUpdate->save();
+                        $objectActualiza = Inventario::whereRaw('producto=?',[$objectUpdate->id])->first();
+                        if ($objectActualiza) {
+                            try {
+                                $objectActualiza->precioCosto        = $request->get('precioCosto', $objectActualiza->precioCosto);
+                                $objectActualiza->precioVenta        = $request->get('precioVenta', $objectActualiza->precioVenta);
+                                $objectActualiza->precioClienteEs    = $request->get('precioClienteEs', $objectActualiza->precioClienteEs);
+                                $objectActualiza->precioDistribuidor = $request->get('precioDistribuidor', $objectActualiza->precioDistribuidor);
+                                $objectActualiza->cantidad           = $request->get('cantidad', $objectActualiza->cantidad);
+                                $objectActualiza->minimo             = $request->get('minimo', $objectActualiza->minimo);
+                                $objectActualiza->descuento          = $request->get('descuento', $objectActualiza->descuento);
+                                $objectActualiza->sucursal          = $request->get('sucursal', $objectActualiza->sucursal);
+                                $objectActualiza->save();
+                                $objectActualiza->productos;
+                                return Response::json($objectActualiza, 200);
+                            } catch (Exception $e) {
+                                $returnData = array (
+                                    'status' => 500,
+                                    'message' => $e->getMessage()
+                                );
+                                return Response::json($returnData, 500);
+                            }
+                        }
+                        else {
+                            $returnData = array (
+                                'status' => 404,
+                                'message' => 'No record found'
+                            );
+                            return Response::json($returnData, 404);
+                        }
+                    } catch (Exception $e) {
+                        $returnData = array (
+                            'status' => 500,
+                            'message' => $e->getMessage()
+                        );
+                        return Response::json($returnData, 500);
+                    }
+                }
+                else {
+                    try {
+                        $objectNuevo = new Productos();
+                        $objectNuevo->nombre      = $request->get('nombre');
+                        $objectNuevo->descripcion = $request->get('descripcion');
+                        $objectNuevo->codigo      = $request->get('codigo');
+                        $objectNuevo->marcaDes    = $request->get('marcaDes');
+                        $objectNuevo->tipo        = $request->get('tipo');
+                        $objectNuevo->save();
+                            try {
+                                $newObject = new Inventario();
+                                $newObject->producto           = $objectNuevo->id;
+                                $newObject->precioCosto        = $request->get('precioCosto');
+                                $newObject->precioVenta        = $request->get('precioVenta');
+                                $newObject->precioClienteEs    = $request->get('precioClienteEs');
+                                $newObject->precioDistribuidor = $request->get('precioDistribuidor');
+                                $newObject->cantidad           = $request->get('cantidad');
+                                $newObject->minimo             = $request->get('minimo');
+                                $newObject->descuento          = $request->get('descuento');
+                                $newObject->sucursal          = $request->get('sucursal');
+                                $newObject->save();
+                                $newObject->productos;
+                                return Response::json($newObject, 200);
+                            } catch (\Illuminate\Database\QueryException $e) {
+                                if($e->errorInfo[0] == '01000'){
+                                    $errorMessage = "Error Constraint";
+                                }  else {
+                                    $errorMessage = $e->getMessage();
+                                }
+                                $returnData = array (
+                                    'status' => 505,
+                                    'SQLState' => $e->errorInfo[0],
+                                    'message' => $errorMessage
+                                );
+                                return Response::json($returnData, 500);
+                            } catch (Exception $e) {
+                                $returnData = array (
+                                    'status' => 500,
+                                    'message' => $e->getMessage()
+                                );
+                                return Response::json($returnData, 500);
+                            }
+                    } catch (\Illuminate\Database\QueryException $e) {
+                        if($e->errorInfo[0] == '01000'){
+                            $errorMessage = "Error Constraint";
+                        }  else {
+                            $errorMessage = $e->getMessage();
+                        }
+                        $returnData = array (
+                            'status' => 505,
+                            'SQLState' => $e->errorInfo[0],
+                            'message' => $errorMessage
+                        );
+                        return Response::json($returnData, 500);
+                    } catch (Exception $e) {
+                        $returnData = array (
+                            'status' => 500,
+                            'message' => $e->getMessage()
+                        );
+                        return Response::json($returnData, 500);
+                    }
+                }
             }
+            
         }
     }
 

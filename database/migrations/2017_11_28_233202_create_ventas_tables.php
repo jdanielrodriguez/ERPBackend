@@ -18,6 +18,7 @@ class CreateVentasTables extends Migration
             $table->double('total',50,2)->nullable()->default(null);
             $table->date('fecha')->nullable()->default(null);
             $table->string('comprobante')->nullable()->default(1);
+            $table->tinyInteger('taller')->nullable()->default(0);
             $table->tinyInteger('estado')->nullable()->default(1);
 
             $table->integer('tipo')->unsigned()->nullable()->default(null);
